@@ -1,10 +1,16 @@
 {
-  "_doc": "English UI strings — per P05-T01. Mirror in vi.json.",
+  "_doc": "English UI strings — complete for P05. Mirror in vi.json.",
   "chat": {
     "placeholder": "Ask a question…",
     "submit": "Ask",
     "thinking": "Thinking…",
-    "newConversation": "New conversation"
+    "newConversation": "New conversation",
+    "regenerate": "Regenerate",
+    "showMeHow": "Show me how",
+    "shareLink": "Copy share link",
+    "exportChat": "Export conversation",
+    "searchHistory": "Search history…",
+    "noHistory": "No conversations yet"
   },
   "confidence": {
     "high": "High confidence",
@@ -14,10 +20,48 @@
   "refusal": {
     "outOfScope": "I don't have a metric for that question. Try rephrasing.",
     "sensitive": "Your role doesn't permit this question. Request elevation if needed.",
-    "lowConfidence": "I'm not confident enough to answer. This has been routed to a reviewer."
+    "lowConfidence": "I'm not confident enough to answer. This has been routed to a reviewer.",
+    "rephrase": "Rephrase"
   },
   "hitl": {
     "banner": "Your question requires reviewer approval. Reviewer SLA: 30 minutes.",
-    "approved": "Your answer is ready"
+    "approved": "Your answer is ready",
+    "rejected": "The reviewer has declined this question."
+  },
+  "drawer": {
+    "title": "How this answer was generated",
+    "sql": "Generated SQL",
+    "citations": "Citations",
+    "confidence": "Confidence",
+    "execution": "Execution time",
+    "close": "Close"
+  },
+  "empty": {
+    "greeting": "What would you like to know?",
+    "description": "Ask questions in natural language about your business data"
+  },
+  "admin": {
+    "title": "Admin Console",
+    "tenants": "Tenants & BUs",
+    "rbac": "RBAC Matrix",
+    "metrics": "Metric Registry",
+    "audit": "Audit Log",
+    "eval": "Eval Harness",
+    "alerts": "Security Alerts",
+    "search": "Search…",
+    "filters": "Filters",
+    "export": "Export"
+  },
+  "dashboard": {
+    "pin": "Pin to dashboard",
+    "unpin": "Unpin",
+    "schedule": "Schedule digest",
+    "refresh": "Refresh"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content",
+    "chatRegion": "Chat conversation",
+    "inputRegion": "Message input",
+    "historyRegion": "Conversation history"
   }
 }

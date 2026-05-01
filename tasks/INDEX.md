@@ -90,11 +90,11 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P05-T01 | Build shared conversational UI surface (chat + citations + tiers) | user_facing | limited | design+eng | P02-T04, P02-T05 | ◯ draft | partial |
-| P05-T02 | Skin and seed SVFC theme (SF9 surface) | user_facing | limited | design | P05-T01, P03-T01 | ◯ draft | partial |
-| P05-T03 | Skin and seed Bank theme (SB5 surface, HITL banner) | user_facing | limited | design | P05-T01, P03-T02, P06-T02 | ◯ draft | partial |
-| P05-T04 | Skin and seed Securities theme (SS1 surface, ticker-aware) | user_facing | limited | design | P05-T01, P03-T03 | ◯ draft | partial |
-| P05-T05 | Build admin console (RBAC editor, registry browser, audit explorer) | internal_tooling | minimal | eng | P05-T01 | ◯ draft | yes |
+| P05-T01 | Build shared conversational UI surface (chat + citations + tiers) | user_facing | limited | design+eng | P02-T04, P02-T05 | ◐ in_progress | partial |
+| P05-T02 | Skin and seed SVFC theme (SF9 surface) | user_facing | limited | design | P05-T01, P03-T01 | ◐ in_progress | partial |
+| P05-T03 | Skin and seed Bank theme (SB5 surface, HITL banner) | user_facing | limited | design | P05-T01, P03-T02, P06-T02 | ◐ in_progress | partial |
+| P05-T04 | Skin and seed Securities theme (SS1 surface, ticker-aware) | user_facing | limited | design | P05-T01, P03-T03 | ◐ in_progress | partial |
+| P05-T05 | Build admin console (RBAC editor, registry browser, audit explorer) | internal_tooling | minimal | eng | P05-T01 | ◐ in_progress | yes |
 
 ## Phase 6 — HITL Reviewer Queue (SB5 wedge)
 
@@ -254,6 +254,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 2 — Core Engine**: ALL 9 tasks **in_progress** — metric registry, NL→SQL pipeline, policy engine, citation engine, confidence scoring, prompt guard, consent ledger, two-tier cache, and audit log modules implemented.
 - **Phase 3 — Synthetic Datasets**: ALL 4 tasks **in_progress** — Faker-VN, loader tooling, and 3 BU generators (SVFC 8 tables, Bank HO 7 tables, Securities 8 tables) with data cards produced.
 - **Phase 4 — Eval Harness**: ALL 5 tasks **in_progress** — 90 gold-set Q&A (30/BU), adversarial corpus (30+ seed), metrics framework, `cyber-eval` CLI, and reviewer-feedback loop implemented.
+- **Phase 5 — UI Shells**: ALL 5 tasks **in_progress** — shared chat surface (10 components, WCAG 2.2 AA), SVFC slate theme, Bank navy theme (HITL prominent), Securities charcoal theme (ticker-aware), admin console (6-section), dashboards (6 templates), full EN/VI i18n.
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks

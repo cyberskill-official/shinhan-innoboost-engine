@@ -1,0 +1,101 @@
+/* ui/themes/securities/theme.css
+ * P05-T04 — Securities Charcoal Theme (SS1 Surface)
+ * Ticker-aware chat, trading-floor aesthetic
+ */
+
+.theme-securities {
+  /* Palette: charcoal + electric blue (trading terminal aesthetic) */
+  --bg-primary: #0c0c14;
+  --bg-secondary: #13131f;
+  --bg-tertiary: #1c1c2e;
+  --text-primary: #eef0f6;
+  --text-secondary: #8890a4;
+  --text-muted: #565d72;
+  --border: #2a2d3e;
+  --accent: #3b82f6;            /* Electric blue — markets, data */
+  --accent-hover: #60a5fa;
+  --accent-subtle: rgba(59, 130, 246, 0.1);
+
+  /* Ticker colours */
+  --ticker-up: #10b981;
+  --ticker-down: #ef4444;
+  --ticker-neutral: #6b7280;
+
+  --hero-gradient: linear-gradient(135deg, #0c0c14 0%, #1e3a5f 50%, #0c0c14 100%);
+}
+
+.theme-securities .empty-state {
+  background: var(--hero-gradient);
+}
+
+.theme-securities .empty-greeting::before {
+  content: '📈 ';
+}
+
+/* Ticker Symbol Highlight */
+.ticker-symbol {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: var(--accent-subtle);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.ticker-symbol:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.ticker-up { color: var(--ticker-up); }
+.ticker-down { color: var(--ticker-down); }
+
+/* Market Data Strip */
+.market-strip {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+}
+
+.market-strip-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.market-strip-symbol {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.market-strip-price {
+  color: var(--text-secondary);
+}
+
+.market-strip-change {
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+}
+
+.market-strip-change.up {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--ticker-up);
+}
+
+.market-strip-change.down {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--ticker-down);
+}
