@@ -172,12 +172,12 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P13-T01 | Draft mutual NDA and PoC SOW templates | internal_tooling | not_ai | legal+sales | — | ◯ draft | partial |
-| P13-T02 | Author joint working-agreements doc (cadence, comms, escalation) | internal_tooling | not_ai | pm | — | ◯ draft | yes |
-| P13-T03 | Author Shinhan-side onboarding pack (tool, HITL, audit-log primer) | internal_tooling | not_ai | pm | P05-T01..5, P06-T02 | ◯ draft | yes |
-| P13-T04 | Produce data + infrastructure delivery checklists | internal_tooling | not_ai | eng+ops | P03-T01..3, P10-T01..4 | ◯ draft | yes |
-| P13-T05 | Author joint kickoff agenda + slide deck (week 1) | internal_tooling | not_ai | pm | P12-T01 | ◯ draft | yes |
-| P13-T06 | Author mid-term, final, and commercialisation playbooks | internal_tooling | not_ai | pm+sales | — | ◯ draft | partial |
+| P13-T01 | Draft mutual NDA and PoC SOW templates | internal_tooling | not_ai | legal+sales | — | ◐ in_progress | partial |
+| P13-T02 | Author joint working-agreements doc (cadence, comms, escalation) | internal_tooling | not_ai | pm | — | ◐ in_progress | yes |
+| P13-T03 | Author Shinhan-side onboarding pack (tool, HITL, audit-log primer) | internal_tooling | not_ai | pm | P05-T01..5, P06-T02 | ◐ in_progress | yes |
+| P13-T04 | Produce data + infrastructure delivery checklists | internal_tooling | not_ai | eng+ops | P03-T01..3, P10-T01..4 | ◐ in_progress | yes |
+| P13-T05 | Author joint kickoff agenda + slide deck (week 1) | internal_tooling | not_ai | pm | P12-T01 | ◐ in_progress | yes |
+| P13-T06 | Author mid-term, final, and commercialisation playbooks | internal_tooling | not_ai | pm+sales | — | ◐ in_progress | partial |
 
 ---
 
@@ -262,6 +262,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 10 — Deployment Targets**: ALL 4 tasks **in_progress** — enhanced docker-compose (profiles: offline/observability, health checks, Qwen-7B), cloud deployment (per-BU namespaces, GKE Terraform, Helm commands), air-gapped on-prem bundle (SBOM + cosign, 3-tier sizing guide, ops runbook), VN data residency (Viettel/VNPT/FPT IDC mapping, Postgres RLS, per-tenant encryption).
 - **Phase 11 — Trust & Reference**: ALL 6 tasks **in_progress** — 2 reference engagement one-pagers (94% + 99.7% improvement), AI Doctrine three lenses (governance/velocity/accuracy), per-BU architecture + data-flow diagrams, compliance dossier index (9 documents), transparency log (5 incidents, 0 production), squad bios (6-person team, multilingual EN/VI/KO).
 - **Phase 12 — Pitch & Rehearsal**: ALL 5 tasks **in_progress** — 3 BU-specific 10-slide pitch decks (15-min format, full SVFC script + Bank/Securities adaptations), 3 demo run-of-show plans (minute-by-minute timing, 4 failure plans), SS1 live-coding kit (3 clipboard prompt sets, timing guide, recording checklist), FAQ doc (12 anticipated questions + 4 curveball strategies), rehearsal plan (3 rehearsals, 7 stress scenarios, final calibration).
+- **Phase 13 — Post-Interview / Kickoff Readiness**: ALL 6 tasks **in_progress** — mutual NDA + PoC SOW templates (12-week scope, kill/graduation criteria, IP terms), joint working agreements (weekly cadence, 3-level escalation tree, 6 milestone gates), Shinhan onboarding pack (tool/HITL/audit for non-technical users), data + infra delivery checklists (7 data items + 8 infra items + masking guide), Week 1 kickoff agenda (5-day plan: kickoff + data workshop + HITL training + config), mid-term/final assessment templates + 4-phase commercialisation playbook (PoC → Pilot → Scale → MSA).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
