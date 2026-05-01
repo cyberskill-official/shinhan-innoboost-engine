@@ -142,10 +142,10 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P10-T01 | Build Docker Compose laptop deployment with offline LLM | infrastructure | minimal | eng | P02-T02 | ◯ draft | yes |
-| P10-T02 | Build cloud deployment (Helm + per-BU namespace) on GKE/EKS | infrastructure | not_ai | eng-sec+ops | P01-T04 | ◯ draft | partial |
-| P10-T03 | Build air-gapped on-prem deployment bundle and sizing guide | infrastructure | not_ai | eng-sec+ops | P10-T02 | ◯ draft | partial |
-| P10-T04 | Engineer per-tenant data residency for VN-hosted infra | infrastructure | minimal | eng-sec | P10-T02 | ◯ draft | partial |
+| P10-T01 | Build Docker Compose laptop deployment with offline LLM | infrastructure | minimal | eng | P02-T02 | ◐ in_progress | yes |
+| P10-T02 | Build cloud deployment (Helm + per-BU namespace) on GKE/EKS | infrastructure | not_ai | eng-sec+ops | P01-T04 | ◐ in_progress | partial |
+| P10-T03 | Build air-gapped on-prem deployment bundle and sizing guide | infrastructure | not_ai | eng-sec+ops | P10-T02 | ◐ in_progress | partial |
+| P10-T04 | Engineer per-tenant data residency for VN-hosted infra | infrastructure | minimal | eng-sec | P10-T02 | ◐ in_progress | partial |
 
 ## Phase 11 — Trust & Reference Materials
 
@@ -259,6 +259,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 7 — Vibe-Coding Demo Track**: ALL 4 tasks **in_progress** — starter-kit repo (3 presets, MCP configs, financial-types library), 3 live-build scenarios (Portfolio Summariser/Regulatory Checker/Backtest Dashboard) with kill/graduation criteria, 4 workflow templates (spec/demo/decision-gate/weekly cadence), evidence kit (3 graduated + 3 killed cycles).
 - **Phase 8 — Compliance & Security**: ALL 8 tasks **in_progress** — PDPL mapping (6 consent purposes, DPIA), VN Cybersecurity Law (data localisation, 24h incident SLA), SBV circulars (TT-09, TT-50), ISO 27001/42001/SOC 2 controls (87% ready), STRIDE threat model (7 services + 8 LLM threats), pentest scope + NDA, SIG Lite/CAIQ/Shinhan questionnaires, IR/BCP runbooks (RTO 4h, RPO 1h).
 - **Phase 9 — Observability**: ALL 5 tasks **in_progress** — structured logger (JSON, Loki/OpenSearch shipping, OTel correlation), 5 Grafana dashboards (40+ panels), OTel tracing (W3C propagation, OTLP export, 24 predefined spans), SLO doc (5 primary SLOs, 8 alert rules, 6 runbooks), cost tracker (3 LLM pricing models, Z-score anomaly detection, Prometheus export).
+- **Phase 10 — Deployment Targets**: ALL 4 tasks **in_progress** — enhanced docker-compose (profiles: offline/observability, health checks, Qwen-7B), cloud deployment (per-BU namespaces, GKE Terraform, Helm commands), air-gapped on-prem bundle (SBOM + cosign, 3-tier sizing guide, ops runbook), VN data residency (Viettel/VNPT/FPT IDC mapping, Postgres RLS, per-tenant encryption).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks

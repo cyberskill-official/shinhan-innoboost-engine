@@ -1,9 +1,18 @@
-# Laptop deployment — per P10-T01.
-# Brings the full stack up on a 16 GB MacBook in < 5 minutes.
+# Laptop Deployment — Full Stack on a 16 GB MacBook
+# P10-T01 — Enhanced Docker Compose with offline LLM, observability, pre-seeded data
 
 version: '3.9'
 
+x-common: &common-env
+  APP_VERSION: "0.1.0"
+  ENVIRONMENT: development
+  LOKI_ENDPOINT: http://loki:3100/loki/api/v1/push
+  OTLP_ENDPOINT: http://tempo:4318/v1/traces
+
 services:
+
+  # ─── Data Layer ──────────────────────────────────────────
+
   postgres:
     image: postgres:16-alpine
     environment:
@@ -13,12 +22,26 @@ services:
       - '5432:5432'
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./init-db.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./seed-data.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   redis:
     image: redis:7-alpine
     ports:
       - '6379:6379'
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─── Identity ────────────────────────────────────────────
 
   keycloak:
     image: quay.io/keycloak/keycloak:25.0
@@ -31,53 +54,149 @@ services:
     volumes:
       - ./keycloak-realms:/opt/keycloak/data/import:ro
 
+  # ─── LLM — Offline or API ───────────────────────────────
+
   qwen-inference:
-    # Local LLM for offline operation.
-    # On Apple Silicon, swap for an MLX-based image.
-    image: ghcr.io/cyberskill-official/qwen-7b-awq-cpu:latest
+    # Local Qwen-7B for offline operation (quantised AWQ)
+    # On Apple Silicon: use MLX-based image for Metal acceleration
+    image: ghcr.io/cyberskill-official/qwen-7b-awq:latest
     ports:
       - '8081:8000'
+    environment:
+      MODEL_NAME: Qwen/Qwen2.5-7B-Instruct-AWQ
+      MAX_MODEL_LEN: 4096
+      GPU_MEMORY_UTILISATION: 0.85
+    deploy:
+      resources:
+        limits:
+          memory: 8G
     profiles: ['offline']
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+
+  # ─── Application Services ───────────────────────────────
 
   engine:
     build:
       context: ../..
       dockerfile: engine/Dockerfile
     environment:
+      <<: *common-env
       DATABASE_URL: postgres://postgres:localdev@postgres:5432/cyberskill
       REDIS_URL: redis://redis:6379
       KEYCLOAK_URL: http://keycloak:8080
       LLM_ENDPOINT: ${LLM_ENDPOINT:-http://qwen-inference:8000/v1}
+      LLM_PROVIDER: ${LLM_PROVIDER:-openai}      # "openai" | "anthropic" | "local"
+      LLM_MODEL: ${LLM_MODEL:-gpt-4o}
+      CONFIDENCE_THRESHOLD: "0.65"
+      HITL_ENDPOINT: http://hitl:4001
     ports:
       - '4000:4000'
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   hitl:
     build:
       context: ../..
       dockerfile: hitl/Dockerfile
     environment:
+      <<: *common-env
       DATABASE_URL: postgres://postgres:localdev@postgres:5432/cyberskill
+      REDIS_URL: redis://redis:6379
+      NOTIFICATION_EMAIL_ENABLED: "false"
+      NOTIFICATION_WEBHOOK_ENABLED: "false"
+      SLA_WARNING_MINUTES: "20"
+      SLA_BREACH_MINUTES: "30"
+      SLA_ESCALATION_MINUTES: "45"
     ports:
       - '4001:4001'
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   ui:
     build:
       context: ../..
       dockerfile: ui/Dockerfile
     environment:
+      <<: *common-env
       ENGINE_URL: http://engine:4000
       HITL_URL: http://hitl:4001
       KEYCLOAK_URL: http://keycloak:8080
+      DEFAULT_BU: securities
     ports:
       - '3000:3000'
     depends_on:
       - engine
       - hitl
 
+  # ─── Observability Stack ─────────────────────────────────
+
+  loki:
+    image: grafana/loki:3.0.0
+    ports:
+      - '3100:3100'
+    command: -config.file=/etc/loki/local-config.yaml
+    profiles: ['observability']
+
+  tempo:
+    image: grafana/tempo:2.4.1
+    ports:
+      - '4318:4318'    # OTLP HTTP
+      - '3200:3200'    # Tempo query
+    command: -config.file=/etc/tempo/local-config.yaml
+    profiles: ['observability']
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alerts.yml:/etc/prometheus/alerts.yml:ro
+    profiles: ['observability']
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    ports:
+      - '3001:3000'
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: localdev
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    volumes:
+      - ./grafana-provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - prometheus
+      - loki
+      - tempo
+    profiles: ['observability']
+
 volumes:
   postgres-data:
+
+# ─── Usage ──────────────────────────────────────────────
+#
+# Standard (online LLM):
+#   docker compose up
+#
+# Offline (local Qwen-7B):
+#   docker compose --profile offline up
+#
+# With observability:
+#   docker compose --profile observability up
+#
+# Full stack (offline + observability):
+#   docker compose --profile offline --profile observability up
+#
+# Open:
+#   UI:          http://localhost:3000
+#   Keycloak:    http://localhost:8080  (admin / localdev)
+#   Grafana:     http://localhost:3001  (admin / localdev)
+#   Prometheus:  http://localhost:9090
