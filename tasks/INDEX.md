@@ -31,12 +31,12 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P00-T01 | Secure sponsor consent for Engagement A & B reference reuse | internal_tooling | not_ai | sales+legal | — | ◯ draft | no |
-| P00-T02 | Lock platform, model, and warehouse stack ADRs | infrastructure | minimal | founder+eng | — | ◯ draft | partial |
-| P00-T03 | Lock brand surface and three BU theme variants | user_facing | not_ai | design | — | ◯ draft | partial |
-| P00-T04 | Assemble NDA pack and legal scaffolding | internal_tooling | not_ai | legal | — | ◯ draft | partial |
-| P00-T05 | Procure on-demand GPU for on-prem rehearsal infra | infrastructure | not_ai | ops | P00-T02 | ◯ draft | no |
-| P00-T06 | Stand up project workspace (Slack channel, tracker, drive) | internal_tooling | not_ai | pm | — | ◯ draft | yes |
+| P00-T01 | Secure sponsor consent for Engagement A & B reference reuse | internal_tooling | not_ai | sales+legal | — | ◐ in_progress | no |
+| P00-T02 | Lock platform, model, and warehouse stack ADRs | infrastructure | minimal | founder+eng | — | ◐ in_progress | partial |
+| P00-T03 | Lock brand surface and three BU theme variants | user_facing | not_ai | design | — | ◐ in_progress | partial |
+| P00-T04 | Assemble NDA pack and legal scaffolding | internal_tooling | not_ai | legal | — | ◐ in_progress | partial |
+| P00-T05 | Procure on-demand GPU for on-prem rehearsal infra | infrastructure | not_ai | ops | P00-T02 | ◐ in_progress | no |
+| P00-T06 | Stand up project workspace (Slack channel, tracker, drive) | internal_tooling | not_ai | pm | — | ◐ in_progress | yes |
 
 ## Phase 1 — Foundation: Infra, Security, Repo
 
@@ -245,11 +245,11 @@ Where AI agents can pick up work end-to-end (`Agent: yes` rows) — typically sc
 
 ---
 
-## Status as of 2026-04-29
+## Status as of 2026-05-02
 
 INDEX is the canonical task list; full FR documents are produced phase-by-phase. As of this commit, full FR documents exist for:
 
-- **Phase 0 — Pre-flight**: ALL 6 FRs written (P00-T01..T06).
+- **Phase 0 — Pre-flight**: ALL 6 FRs written and **in_progress** — scaffolding artefacts produced (ADRs drafted, vault structures created, scripts authored, convention docs written). Awaiting human execution per task.
 - **Phase 1 — Foundation**: 2 of 10 written (P01-T01 monorepo skeleton, P01-T02 CI/CD pipeline).
 
 **Pending (full FRs not yet authored)**:

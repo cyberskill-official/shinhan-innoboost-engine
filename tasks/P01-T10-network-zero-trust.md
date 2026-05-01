@@ -34,7 +34,7 @@ Specific gaps if we shortcut:
 - **Without intra-cluster policy enforcement, RBAC bypass via internal endpoints is possible.** All API calls — even from another pod — must go through the policy layer.
 - **Without nightly drift checks, the policy posture decays as engineers add services.** Drift is the silent killer.
 
-The `cyberos_architecture` memory note documents 3-layer tenant isolation; network zero-trust is the network layer of defence-in-depth alongside auth (P01-T06), RBAC (P01-T07), and the policy layer (P02-T03).
+The `shinhanos_architecture` memory note documents 3-layer tenant isolation; network zero-trust is the network layer of defence-in-depth alongside auth (P01-T06), RBAC (P01-T07), and the policy layer (P02-T03).
 
 The `feedback_p1_scope_preference` memory note biases us richer. For network zero-trust, "richer" means: NetworkPolicy at the cluster level + mTLS via service mesh + VPC firewall at the cloud layer + egress allow-list + drift detection. Each layer is well-trodden; together they form an enterprise-grade zero-trust posture.
 
@@ -129,7 +129,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P01-T01, P01-T02, P01-T04 (VPC + cluster), P01-T08 (encryption — TLS at gateway).
 - **People**: eng-sec authoring; platform engineer for service mesh + ingress; founder for sign-off on egress allow-list.
 - **External**: Calico (or cluster's CNI); linkerd; ingress-nginx; ModSecurity (or equivalent); Identity-Aware Proxy (GCP).
-- **Memory references**: `cyberos_architecture`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_architecture`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

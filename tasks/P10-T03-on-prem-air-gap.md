@@ -40,7 +40,7 @@ Specific gaps if we shortcut:
 - **Without sizing guide, customers under-provision and the system fails.**
 - **Without air-gap update procedure, customers are stuck on the version we shipped.**
 
-The `cyberos_data_residency` memory note mandates VN-tenant residency; on-prem inside the customer's data centre is the structural enforcement.
+The `shinhanos_data_residency` memory note mandates VN-tenant residency; on-prem inside the customer's data centre is the structural enforcement.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For on-prem, "richer" means: full bundle + reproducible builds + bare-metal k8s baseline (k3s) + Vault for secrets + sizing guide for 3 tiers + install runbook + operate runbook + update procedure + verification harness.
 

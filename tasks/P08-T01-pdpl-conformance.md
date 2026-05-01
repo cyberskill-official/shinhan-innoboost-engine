@@ -39,9 +39,9 @@ Specific gaps if we shortcut:
 - **Without breach-notification readiness, Art. 23's tight timeline (72 hours to MPS) is unprepared.**
 - **Without cross-border transfer documentation, any data flowing to non-VN regions (the current Anthropic API call) is uncovered.**
 
-The `cyberos_data_residency` memory note mandates VN-tenant data residency; the PDPL mapping must document where data lives.
+The `shinhanos_data_residency` memory note mandates VN-tenant data residency; the PDPL mapping must document where data lives.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include PDPL conformance; this task makes that primitive visible.
+The `shinhanos_ai_compliance` memory note's 7 primitives include PDPL conformance; this task makes that primitive visible.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For PDPL conformance, "richer" means: every applicable article mapped + control reference + evidence pointer + consent-flow doc + breach-notification runbook + cross-border transfer documentation + DPO-equivalent role designated + quarterly review cadence.
 
@@ -116,7 +116,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P02-T07 (PDPL consent + minimisation engine); P01-T08 (encryption); P02-T09 (audit log); P00-T04 (NDA + DPA); legal-library Decree 13/2023 reference.
 - **Downstream**: P11-T04 (compliance dossier index).
 - **People**: compliance lead authoring; legal lead reviewing; founder ratifying DPO designation.
-- **Memory references**: `cyberos_data_residency`, `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

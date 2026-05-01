@@ -42,7 +42,7 @@ Specific gaps if we shortcut:
 - **Without audit trail, PDPL audits cannot be demonstrated.** Engagement B claims "PDPL audit passed with zero findings" — we need the same evidence chain in the demo.
 - **Without Cybersecurity Law mapping, we are unprepared for the 1 July 2026 effective date.** Banking-sector reviewers will be especially attentive to this.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "PDPL consent + minimisation" as a foundational technical primitive; this task is its implementation.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "PDPL consent + minimisation" as a foundational technical primitive; this task is its implementation.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For PDPL, "richer" means: ledger + purpose-binding + retention-policy + erasure handler + sensitivity classifier + audit trail + Cybersecurity-Law mapping + nightly conformance check. Each layer is required by PDPL or its supporting regulation; together they form a comprehensive privacy posture.
 
@@ -127,7 +127,7 @@ Setup target: 21 days from task assignment.
 - **Upstream**: P01-T07 (RBAC), P02-T01 (metric layer), P02-T02 (NL→SQL pipeline integration), P02-T03 (policy layer triggers), P02-T09 (audit log).
 - **Downstream**: P05-T05 (admin UI), P08-T01 (PDPL compliance dossier), P11-T04 (compliance dossier index).
 - **People**: eng-sec authoring; legal lead reviewing consent + erasure language; engine tech lead reviewing pipeline integration; founder ratifying purposes and lawful bases.
-- **Memory references**: `cyberos_ai_compliance`, `cyberos_data_residency`, `feedback_p1_scope_preference`, `feedback_enterprise_voice`.
+- **Memory references**: `shinhanos_ai_compliance`, `shinhanos_data_residency`, `feedback_p1_scope_preference`, `feedback_enterprise_voice`.
 
 ## Open Questions
 

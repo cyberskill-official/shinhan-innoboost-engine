@@ -19,7 +19,7 @@ template: feature_request@1
 
 ## Summary
 
-Engineer per-tenant data residency: VN tenants live on VN-hosted infrastructure (Viettel IDC, VNPT IDC, FPT IDC, or on-prem in customer's own DC); non-VN tenants can live in regional cloud regions; tenant residency is a runtime property baked into infra provisioning + DNS + secrets + audit-log mirror locations. The residency engineering is the structural enforcement of `cyberos_data_residency` memory note + PDPL Art. 16 cross-border requirements + likely SBV expectations. Without it, the multi-tenant story is "we hope nobody asks where the data lives".
+Engineer per-tenant data residency: VN tenants live on VN-hosted infrastructure (Viettel IDC, VNPT IDC, FPT IDC, or on-prem in customer's own DC); non-VN tenants can live in regional cloud regions; tenant residency is a runtime property baked into infra provisioning + DNS + secrets + audit-log mirror locations. The residency engineering is the structural enforcement of `shinhanos_data_residency` memory note + PDPL Art. 16 cross-border requirements + likely SBV expectations. Without it, the multi-tenant story is "we hope nobody asks where the data lives".
 
 ## Customer Quotes
 
@@ -38,7 +38,7 @@ Specific gaps if we shortcut:
 - **Without DNS routing per tenant, requests may flow through wrong region.**
 - **Without audit-log mirror residency, log data crosses borders.**
 
-The `cyberos_data_residency` memory note mandates per-tenant residency for VN tenants.
+The `shinhanos_data_residency` memory note mandates per-tenant residency for VN tenants.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For residency, "richer" means: per-tenant runtime residency property + VN-hosted infra options (Viettel/VNPT/FPT IDC) + DNS routing + secrets backend per residency + audit-log mirror per residency + admin UI surface.
 
@@ -82,7 +82,7 @@ Setup target: 14 days from task assignment.
 
 ## Alternatives Considered
 
-- **Single-region for all tenants.** Rejected: violates `cyberos_data_residency` memory note.
+- **Single-region for all tenants.** Rejected: violates `shinhanos_data_residency` memory note.
 - **Skip migration runbook; treat residency as immutable.** Rejected: rare but real cases (acquisition, regulatory change) require migration.
 - **Cloud-region only (no VN IDC integration).** Rejected: VN-banking customers may require fully-in-country infra.
 

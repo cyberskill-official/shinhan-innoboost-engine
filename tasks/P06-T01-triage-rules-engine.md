@@ -41,7 +41,7 @@ Specific gaps if we shortcut:
 - **Without round-robin routing, one reviewer becomes the bottleneck.**
 - **Without auto-escalation, SLA breaches go unnoticed.**
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "human-in-the-loop" as a foundational primitive. This task is its implementation.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "human-in-the-loop" as a foundational primitive. This task is its implementation.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For triage, "richer" means: multi-condition rules + priority + routing + auto-escalation + per-tenant tunability + audit + observability. Each layer is straightforward; together they form an enterprise-grade HITL workflow.
 
@@ -121,7 +121,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P02-T05 (confidence), P02-T07 (sensitivity), P01-T07 (RBAC), P02-T09 (audit log), P02-T03 (policy layer triggers); P05-T05 (admin UI for rule browsing).
 - **Downstream**: P06-T02 (reviewer console consumes the queue); P06-T03 (calibration reports use audit log).
 - **People**: engine tech lead authoring; eng-sec reviewing rule logic; compliance lead reviewing seed rules; founder ratifying SLA targets.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

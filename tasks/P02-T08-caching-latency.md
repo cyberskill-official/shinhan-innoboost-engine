@@ -112,7 +112,7 @@ Setup target: 14 days from task assignment.
 
 - **Upstream**: P01-T04 (Redis); P02-T01, P02-T02, P02-T05; P09 (observability).
 - **People**: engine tech lead authoring; eng-data reviewing key normalisation; eng-sec reviewing invalidation correctness.
-- **Memory references**: `cyberos_tech_stack`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_tech_stack`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

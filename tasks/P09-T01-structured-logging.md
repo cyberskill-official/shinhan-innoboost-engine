@@ -32,7 +32,7 @@ Specific gaps if we shortcut:
 - **Without PII redaction, logs become a P02-T07 PDPL violation surface.**
 - **Without retention tiers, costs balloon or audit-tier loses visibility.**
 
-The `cyberos_ai_compliance` memory note's 7 primitives include observability; this task is the foundation.
+The `shinhanos_ai_compliance` memory note's 7 primitives include observability; this task is the foundation.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For logging, "richer" means: structured + request-tracing + PII-redaction + retention-tiered + query-friendly + cost-aware.
 

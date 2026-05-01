@@ -42,7 +42,7 @@ Specific gaps if we shortcut:
 - **Without audit-log entries for every gate decision, post-incident forensics are impossible.**
 - **Without deterministic + auditable behaviour, ISO 42001 (AI management system) and EU AI Act Article 14 (human oversight) cannot be evidenced.**
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "deterministic policy layer" as one of the technical primitives that satisfies multi-jurisdictional AI rules. This task is the implementation of that primitive.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "deterministic policy layer" as one of the technical primitives that satisfies multi-jurisdictional AI rules. This task is the implementation of that primitive.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For the policy layer, "richer" means: pre-LLM gates + post-LLM gates + HITL routing + rate limiting + cost ceilings + audit + observability + admin override hooks — every gate auditable, every decision deterministic, every override logged. Each layer is straightforward; together they form the deterministic spine of the chat-with-data engine.
 
@@ -144,7 +144,7 @@ A rule-engine is used so that gates are declarative (in YAML), versioned, and ad
 - **Upstream**: P01-T07 (RBAC); P02-T01 (metric layer); P02-T02 (NL→SQL pipeline integration points); P02-T05 (confidence tiers); P02-T07 (PDPL classifier); P02-T09 (audit log); P02-T06 (prompt-injection defence — provides the trigger for adversarial detection).
 - **Downstream**: P06 (HITL queue), P05-T05 (admin UI).
 - **People**: engine tech lead authoring; eng-sec reviewing rule engine and audit; compliance lead reviewing seed rules; founder ratifying admin-override flow.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

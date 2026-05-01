@@ -34,7 +34,7 @@ Specific gaps if we shortcut:
 - **Without a DR runbook, recovery becomes ad-hoc; the engineer-on-call invents the procedure under stress.** The worst time to invent a procedure.
 - **Without an annually-tested full-cluster recovery, the runbook is theoretical.** Annual drills surface integration gaps that point-restore tests miss.
 
-The `cyberos_data_residency` memory note mandates per-tenant residency for VN tenants. Backups for VN tenants must therefore reside in VN-hosted storage; cross-region replication respects residency boundaries (replicate within VN regions only).
+The `shinhanos_data_residency` memory note mandates per-tenant residency for VN tenants. Backups for VN tenants must therefore reside in VN-hosted storage; cross-region replication respects residency boundaries (replicate within VN regions only).
 
 The `feedback_p1_scope_preference` memory note biases us richer. For backups, "richer" means: PITR + scheduled backups + cross-region replication + monthly restore-tests + DR runbook + annual full-cluster test + tested recovery against a synthetic catastrophic scenario. Each layer is well-known operational practice; together they form an enterprise-grade availability posture.
 
@@ -135,7 +135,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P01-T01, P01-T02, P01-T04 (Cloud SQL + buckets + KMS), P01-T08 (encryption), P02-T09 (audit log).
 - **People**: ops lead authoring; eng-sec reviewing; founder ratifying RTO/RPO commitments.
 - **External**: Cloud SQL, Cloud Storage, KMS.
-- **Memory references**: `cyberos_data_residency`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

@@ -41,7 +41,7 @@ The demo-build-plan.md describes the metric layer in detail (Phase 2.1):
 - "Lineage tracking: every metric maps to source tables/columns; impact analysis on schema change."
 - "Sensitivity tiers: Public / Internal / Restricted / Regulated. Drives downstream RBAC + masking."
 
-The `cyberos_tech_stack` memory note locks Postgres + pgvector for CyberOS; the demo metric layer will use Postgres for its registry storage (separate from the customer warehouse). pgvector enables semantic search over metric definitions at registry-query time (P02-T02 retriever uses this).
+The `shinhanos_tech_stack` memory note locks Postgres + pgvector for ShinhanOS; the demo metric layer will use Postgres for its registry storage (separate from the customer warehouse). pgvector enables semantic search over metric definitions at registry-query time (P02-T02 retriever uses this).
 
 The `feedback_p1_scope_preference` memory note biases us richer. For the metric layer, "richer" means: owner per metric + freshness per metric + sensitivity per metric + lineage to source tables + impact analysis + warehouse-portability across at least three adapters + admin UI for metric governance + documented metric-authorship workflow. Each layer is doable; together they form the core of the chat-with-data system.
 
@@ -134,7 +134,7 @@ Setup target: 21 days from task assignment.
 - **Upstream**: P01-T01 (monorepo); P01-T03 (secrets — for warehouse credentials); P01-T04 (IaC — Postgres + warehouse access); P01-T07 (RBAC — for sensitivity-tier authorisation); P00-T02 ADR-SHB-003 (warehouse stack).
 - **Downstream**: gates P02-T02 (NL→SQL pipeline), P02-T04 (citation engine), P02-T05 (confidence tiers), P02-T08 (cache), P05-T05 (admin UI).
 - **People**: engine tech lead authoring; eng-data co-authoring adapters; domain SMEs authoring seed metrics.
-- **Memory references**: `cyberos_tech_stack`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_tech_stack`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

@@ -33,9 +33,9 @@ Specific gaps if we shortcut:
 - **Without an audit trail of every authorisation decision, ISO 27001 A.5.16 (identity management) and SOC 2 CC6.3 (logical access — authorisation) cannot be evidenced.**
 - **Without sensitivity-tier integration, the policy layer (P02-T03) has nowhere to plug in.** The RBAC engine is the seam that connects identity (P01-T06), data sensitivity (P02-T07 PDPL classifier), and the policy layer (P02-T03).
 
-The `cyberos_architecture` memory note documents 3-layer tenant isolation as a CyberOS architecture principle. The demo's RBAC engine is the application-layer of that 3-layer model (Keycloak realm = identity layer; Postgres row-level filtering = data layer; RBAC engine = application layer). This task delivers the application layer.
+The `shinhanos_architecture` memory note documents 3-layer tenant isolation as a ShinhanOS architecture principle. The demo's RBAC engine is the application-layer of that 3-layer model (Keycloak realm = identity layer; Postgres row-level filtering = data layer; RBAC engine = application layer). This task delivers the application layer.
 
-The `cyberos_ai_compliance` memory note describes 7 technical primitives that satisfy multi-jurisdictional AI rules simultaneously. RBAC + sensitivity-tier integration is one of those primitives — specifically, the access-control primitive that ensures regulated data isn't reachable by an unauthorised role.
+The `shinhanos_ai_compliance` memory note describes 7 technical primitives that satisfy multi-jurisdictional AI rules simultaneously. RBAC + sensitivity-tier integration is one of those primitives — specifically, the access-control primitive that ensures regulated data isn't reachable by an unauthorised role.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For RBAC, "richer" means: declarative API (richer than imperative `if (user.role === ...)` checks scattered through the code); scope-level capabilities (richer than role-only); tenant boundary enforced at every layer (defence in depth); decision audit (more than just access logs); test coverage on every authorisation pattern. Each layer is straightforward; together they form an enterprise-grade access-control model.
 
@@ -150,7 +150,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P01-T06 (Keycloak); P01-T01 (monorepo); P01-T03 (secrets); ADR-SHB-001.
 - **Downstream**: gates every Phase 2 endpoint and every Phase 5 surface.
 - **People**: engine tech lead authors; eng-sec reviews; design lead consults on admin-UI surfaces.
-- **Memory references**: `cyberos_architecture` (3-layer tenant isolation), `cyberos_ai_compliance` (access-control primitive), `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_architecture` (3-layer tenant isolation), `shinhanos_ai_compliance` (access-control primitive), `feedback_p1_scope_preference`.
 
 ## Open Questions
 

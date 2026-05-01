@@ -44,7 +44,7 @@ Specific gaps if we shortcut:
 - **Without Vietnamese rendering verified, P00-T03's bilingual investment is wasted.**
 - **Without mobile responsiveness, an MD on iPad in the boardroom can't use it.**
 
-The `cyberos_genie_brain` memory note clarifies: GENIE is for CyberOS, not for the Shinhan demo. The surface must NOT feature GENIE or any anthropomorphic mascot.
+The `shinhanos_genie_brain` memory note clarifies: GENIE is for ShinhanOS, not for the Shinhan demo. The surface must NOT feature GENIE or any anthropomorphic mascot.
 
 The `feedback_enterprise_voice` memory note locks the external voice. The surface's copy reflects "CyberSkill" as a company, never the founder personally.
 
@@ -123,7 +123,7 @@ A Next.js 15 + React 19 application in `ui/` consuming the brand-surface package
 - **Upstream**: P00-T03 (brand surface); P01-T06 (auth); P02-T01..T09 (engine API).
 - **Downstream**: P05-T02..T04 (theme variants), P12-T01 (pitch decks reference).
 - **People**: design lead authoring; engineer co-authoring; eng-llm reviewing streaming integration; eng-sec reviewing citation cross-tenant denial.
-- **Memory references**: `cyberos_genie_brain` (no GENIE), `feedback_enterprise_voice`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_genie_brain` (no GENIE), `feedback_enterprise_voice`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

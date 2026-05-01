@@ -2,7 +2,7 @@
 title: "Lock brand surface and three BU theme variants"
 author: "@cyberskill-design-lead"
 department: design
-status: draft
+status: in_progress
 priority: p1
 created_at: "2026-04-29"
 ai_authorship: assisted
@@ -35,9 +35,9 @@ Specific Shinhan-context constraints make this harder, not easier:
 
 The `feedback_enterprise_voice` memory note locks the external-voice rules: external materials must use the enterprise voice with "no founder name, no headcount mentions, CyberSkill Engagement Team as signatory." The brand surface must reflect that voice in its UI copy defaults — the "About" surface inside the demo references "CyberSkill" as a company name, never the founder personally.
 
-The `cyberos_tech_stack` memory note commits to Tailwind tokens. We must use Tailwind v4 design tokens (CSS-variables-driven), not arbitrary CSS variables, so that the demo theme can be ported into CyberOS post-PoC without a CSS rewrite. ADR-SHB-001 reinforces this portability requirement.
+The `shinhanos_tech_stack` memory note commits to Tailwind tokens. We must use Tailwind v4 design tokens (CSS-variables-driven), not arbitrary CSS variables, so that the demo theme can be ported into ShinhanOS post-PoC without a CSS rewrite. ADR-SHB-001 reinforces this portability requirement.
 
-The `cyberos_genie_brain` memory note describes a GENIE company-mascot assistant for *CyberOS*, not for the Shinhan demo. The Shinhan demo must not include the GENIE character — it would be off-brand for the financial context. Empty-state illustrations should be serious and warm, line-art style, no anthropomorphic mascots.
+The `shinhanos_genie_brain` memory note describes a GENIE company-mascot assistant for *ShinhanOS*, not for the Shinhan demo. The Shinhan demo must not include the GENIE character — it would be off-brand for the financial context. Empty-state illustrations should be serious and warm, line-art style, no anthropomorphic mascots.
 
 There is also a Phase 8 compliance dependency: WCAG 2.2 AA conformance is required for the engine UI per CyberSkill's accessibility commitments and per general financial-sector accessibility expectations (Vietnamese banks operate under inclusive-access expectations even where not strictly regulated). The brand-surface package must ship with verified contrast ratios and screen-reader semantics from the start, not as a retrofit.
 
@@ -57,7 +57,7 @@ A versioned design-system package `@cyberskill/shinhan-themes@1.0.0` published t
 - [ ] **Define Bank navy (SB5 surface).** Primary Shinhan-navy sampled from Shinhan Bank brand book (`#0046FF` approximate; confirm from authoritative source), accent Shinhan-cyan (`#00B4FF` approximate), surface tone cool-grey (`#F1F4F8` approximate). Justification: Shinhan Bank's own identity leans heavily into navy + cyan; cool surface reinforces the institutional read.
 - [ ] **Define Securities charcoal (SS1 surface).** Primary near-black (`#0F172A`), accent Shinhan-blue (`#1D4ED8`), surface tone high-contrast slate (`#E2E8F0`). Justification: Securities is a more analytical / data-heavy context; charcoal + high-contrast slate optimises for chart and number legibility.
 - [ ] **Produce three brand lockups.** Each lockup pairs the CyberSkill logo with a small "+ Shinhan Bank Vietnam" / "+ Shinhan Vietnam Finance Company" / "+ Shinhan Securities Vietnam" suffix. The style is *partner-mark*, not co-brand: CyberSkill logo is primary, the Shinhan suffix is supporting text in the suffix-typography weight from the DS. No combined marks; no Shinhan logo modifications. Use only Shinhan-supplied or publicly-available Shinhan logo assets, with placement that respects Shinhan brand-guideline clear-space rules.
-- [ ] **Produce empty-state and refusal-state illustrations.** Style: serious-but-warm, line-art, monochrome (uses the active theme's `color-primary` only), financial-services-appropriate. Do NOT include: anthropomorphic mascots; consumer-app metaphors (paper planes, smiley faces, balloons); GENIE character (per `cyberos_genie_brain` memory). Six illustrations total: empty inbox, empty audit log, empty metric registry, refusal (out-of-scope), refusal (sensitive data), refusal (confidence too low).
+- [ ] **Produce empty-state and refusal-state illustrations.** Style: serious-but-warm, line-art, monochrome (uses the active theme's `color-primary` only), financial-services-appropriate. Do NOT include: anthropomorphic mascots; consumer-app metaphors (paper planes, smiley faces, balloons); GENIE character (per `shinhanos_genie_brain` memory). Six illustrations total: empty inbox, empty audit log, empty metric registry, refusal (out-of-scope), refusal (sensitive data), refusal (confidence too low).
 - [ ] **Define chart palette.** Six-colour categorical, accessible at WCAG 2.2 AA contrast against both light and dark surface tones, distinguishable for protanopia and deuteranopia (run through Stark or Sim Daltonism). Same palette across all three themes — theme variation does not affect chart colour, since chart legibility is independent of brand framing.
 - [ ] **Build Storybook with every component × every theme × every state.** Required states: default, hover, focus-visible, active, disabled, loading, error, success, with-data, empty, max-content. Storybook deploys to a private URL behind CyberSkill SSO; the URL is shared in the project workspace.
 - [ ] **Build the Figma library file.** Filename `Shinhan Innoboost — Theme System v1.0.0`. Pages: (1) Foundations — colour, type, space, motion. (2) Components — every chat-specific component with auto-layout. (3) Themes — three theme variants applied to a representative screen composition. (4) Compositions — three example screens fully assembled per theme: chat answer surface (the user-facing demo surface), HITL reviewer console (for SB5), admin audit explorer (for the compliance pitch). Share permissions: squad has edit, founder has view, no external sharing.
@@ -126,7 +126,7 @@ A versioned design-system package `@cyberskill/shinhan-themes@1.0.0` published t
 - **Templates and tools**: Storybook v8, Tailwind v4 token system, Figma library workflow, axe-core, Sim Daltonism (or Stark plug-in), internal npm registry.
 - **People**: design lead authoring; engineer co-authoring component implementations; founder ratifying.
 - **External**: Shinhan brand asset access (logos and brand-guideline clear-space rules; obtain from public sources or via SFL-V if available).
-- **Memory references**: `feedback_enterprise_voice`, `cyberskill_company_facts`, `cyberos_genie_brain` (specifically: do not include GENIE).
+- **Memory references**: `feedback_enterprise_voice`, `cyberskill_company_facts`, `shinhanos_genie_brain` (specifically: do not include GENIE).
 - **Downstream**: gates P05-T01..T05 (UI shells), P12-T01 (pitch decks), P11-T03 (architecture diagrams use the same visual language).
 
 ## Open Questions
@@ -140,7 +140,7 @@ A versioned design-system package `@cyberskill/shinhan-themes@1.0.0` published t
 
 ## Implementation Notes
 
-- All three theme variants should be implemented as Tailwind v4 `@theme` blocks. Each theme is a CSS file: `themes/svfc.css`, `themes/bank.css`, `themes/securities.css`. The chat surface picks a theme by setting `data-theme="svfc"` on the root element. This pattern matches the broader CyberOS approach and keeps the port to CyberOS mechanical.
+- All three theme variants should be implemented as Tailwind v4 `@theme` blocks. Each theme is a CSS file: `themes/svfc.css`, `themes/bank.css`, `themes/securities.css`. The chat surface picks a theme by setting `data-theme="svfc"` on the root element. This pattern matches the broader ShinhanOS approach and keeps the port to ShinhanOS mechanical.
 - Components that need theme-aware logic (e.g., a chart that needs to invert text colour over a coloured background) use semantic tokens (`color-on-primary`, `color-on-surface`), not raw colour values. This is the only way to keep components theme-agnostic.
 - The "no theme-specific component overrides" constraint is enforced in code review and via a lint rule: any component file that contains the substring `theme ===` or `theme==` fails CI.
 - Storybook should include a `Theme` toolbar control that lets reviewers swap themes live. This is also useful for the Phase 12 rehearsals — the same Storybook becomes a "show our design language" surface during the interview.

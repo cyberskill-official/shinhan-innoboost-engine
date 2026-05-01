@@ -135,7 +135,7 @@ A common container-hardening recipe encoded in (a) a base Dockerfile fragment th
 - **Upstream**: P01-T01 (monorepo skeleton); P01-T02 (CI/CD pipeline for signing + scanning hooks); P01-T04 (IaC for `securityContext` enforcement at admission).
 - **People**: eng-sec authoring; platform engineer for admission-control policy; engine tech lead for engineer-facing docs.
 - **External**: Distroless registry (`gcr.io/distroless/*`); Sigstore (`fulcio.sigstore.dev`, `rekor.sigstore.dev`); Syft, Trivy, Grype tooling.
-- **Memory references**: `cyberos_data_residency`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

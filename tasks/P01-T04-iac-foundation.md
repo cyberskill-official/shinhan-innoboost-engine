@@ -36,7 +36,7 @@ Specific gaps if we shortcut:
 
 The Innoboost Q&A's Section VI confirms commercial deployment "must be deployed per SBV regulations." Vietnamese banking regulation (Circular 09/2020/TT-NHNN, Circular 50/2024/TT-NHNN) typically requires evidence of strong infrastructure controls, network segmentation, and access management. IaC produces all this evidence as a side-effect of how we build.
 
-The `cyberos_data_residency` memory note mandates that VN-tenant data lives on VN-hosted infrastructure (not Railway / Neon US). The Helm charts must therefore not hardcode any cloud-region; the Terraform must support GCP / AWS / Azure VN-region deployments, plus VN-hosted IDC providers (Viettel IDC, VNPT IDC, FPT IDC) for fully on-prem.
+The `shinhanos_data_residency` memory note mandates that VN-tenant data lives on VN-hosted infrastructure (not Railway / Neon US). The Helm charts must therefore not hardcode any cloud-region; the Terraform must support GCP / AWS / Azure VN-region deployments, plus VN-hosted IDC providers (Viettel IDC, VNPT IDC, FPT IDC) for fully on-prem.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For IaC, "richer" means: Terraform modules that can stamp out any environment (laptop-cloud, dev, staging, production-rehearsal, production-shinhan-poc) by varying inputs; Helm charts with values-files for each environment; IaC tests (terraform validate, helm lint, conftest policies) in CI; a documented bare-metal Kubernetes baseline (k3s or kubeadm) with sizing guides. Setup cost is real but recoverable; shortcut cost is later panic.
 
@@ -137,7 +137,7 @@ Plus the bare-metal baseline: a documented k3s + Calico + MetalLB + Longhorn bas
 - **Upstream**: P01-T01 (monorepo skeleton); P00-T02 ADR-SHB-001 + ADR-SHB-003 (host platform + warehouse).
 - **People**: eng-sec authoring; platform engineer co-authoring; founder for cloud-cost approval (staging environment burn rate).
 - **External**: GCP / AWS account (founder credit-card-on-file with billing alerts); domain `cyberskill.world` DNS access; HashiCorp registry for Terraform providers.
-- **Memory references**: `cyberos_data_residency`, `cyberos_tech_stack`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `shinhanos_tech_stack`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

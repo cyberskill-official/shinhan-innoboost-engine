@@ -38,9 +38,9 @@ Specific gaps if we shortcut:
 - **Without lawful-interception placeholder, the obligation is unprepared.**
 - **Without data-localisation documentation, our cloud-region choices are exposed.**
 
-The `cyberos_data_residency` memory note already mandates VN-tenant data residency; this task ties that to the regulatory obligation.
+The `shinhanos_data_residency` memory note already mandates VN-tenant data residency; this task ties that to the regulatory obligation.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include compliance-readiness; this task makes Cybersecurity Law part of that.
+The `shinhanos_ai_compliance` memory note's 7 primitives include compliance-readiness; this task makes Cybersecurity Law part of that.
 
 ## Proposed Solution
 
@@ -48,7 +48,7 @@ A conformance dossier in `compliance/cybersecurity-law/`:
 
 1. **Per-obligation mapping** at `compliance/cybersecurity-law/MAPPING.md`.
 2. **Uncertainty log** at `compliance/cybersecurity-law/UNCERTAINTY.md`. Items pending implementing-decree clarification; quarterly review.
-3. **Data-localisation documentation** at `compliance/cybersecurity-law/LOCALISATION.md`. Cross-references `cyberos_data_residency` memory + P10-T04 task.
+3. **Data-localisation documentation** at `compliance/cybersecurity-law/LOCALISATION.md`. Cross-references `shinhanos_data_residency` memory + P10-T04 task.
 4. **Incident-reporting runbook** at `docs/runbooks/cybersecurity-law-incident-reporting.md`.
 5. **Security-audit cadence** documented; aligns with P08-T04 ISO 27001 + 42001 + SOC 2 cadence.
 6. **Vendor-management** documented; cross-references P00-T04 NDA pack + P00-T01 sponsor consent.
@@ -104,7 +104,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P10-T04 (residency engineering); P02-T07 (PDPL consent — same data-protection stack); P00-T04 (NDA pack); legal-library Cybersecurity Law text.
 - **Downstream**: P11-T04 (compliance dossier index).
 - **People**: compliance lead authoring; legal lead reviewing; founder ratifying.
-- **Memory references**: `cyberos_data_residency`, `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 
@@ -116,7 +116,7 @@ Setup target: 14 days from task assignment.
 
 - Mapping in tabular form (same shape as P08-T01).
 - Uncertainty log: columns for "obligation", "current interpretation", "trigger for re-review", "owner".
-- Data-localisation doc cites the `cyberos_data_residency` memory note explicitly; cross-link.
+- Data-localisation doc cites the `shinhanos_data_residency` memory note explicitly; cross-link.
 - Quarterly review aligned with PDPL review (P08-T01) for efficiency.
 
 ## Test Plan

@@ -41,7 +41,7 @@ Specific gaps if we shortcut:
 - **Without an ambiguity component, ambiguous questions get answered confidently.** The LLM should signal "I think you meant X but Y is also plausible" via lower confidence; user can refine.
 - **Without thresholds matching the AI Doctrine, our internal claims (Low <60% / Medium 60–85% / High >85%) are inconsistent.** The Doctrine is the reference; the implementation matches.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "confidence-tier scoring" as a foundational primitive. This task is its implementation, faithful to the Doctrine.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "confidence-tier scoring" as a foundational primitive. This task is its implementation, faithful to the Doctrine.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For confidence tiers, "richer" means: multi-component score (schema-match + validator-strength + eval-similarity + freshness + ambiguity); deterministic algorithm; user-facing pill + drawer-detail view; HITL integration; per-tenant override of thresholds; observability of how the score is composed (so engineers can debug "why was this rated Low?"). Each component is explainable; together they form a transparent confidence model.
 
@@ -126,7 +126,7 @@ Setup target: 14 days from task assignment.
 
 - **Upstream**: P02-T01, P02-T02, P02-T03, P02-T04, P02-T07, P02-T09; AI Doctrine v1.0.0.
 - **People**: engine tech lead authoring; eng-llm reviewing scoring formula; design lead reviewing breakdown surface.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

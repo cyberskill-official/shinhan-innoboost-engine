@@ -40,7 +40,7 @@ Specific gaps if we shortcut:
 - **Without versioning, regressions on entries added recently can't be distinguished from baseline regressions.**
 - **Without continuous expansion, the corpus decays as attack patterns evolve.**
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "adversarial corpus" as a foundational technical primitive.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "adversarial corpus" as a foundational technical primitive.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For the adversarial corpus, "richer" means: 310+ items across categories; explicit expected outcome per item; CI integration with merge gate; quarterly expansion cadence; observability of corpus run results; redacted public-summary version for compliance dossier.
 

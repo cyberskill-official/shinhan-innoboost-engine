@@ -33,7 +33,7 @@ Specific risks if we shortcut:
 - **Container-from-day-one keeps the on-prem deployment path (P10-T03) honest.** If we ever skip a workspace's Dockerfile, we discover the gap during demo rehearsal — the worst possible time.
 - **The `.npmrc` / `engines` setting prevents the "works on my machine but not in CI" class of bug.** Cheap to set up; expensive to debug without.
 
-The `cyberos_tech_stack` memory note locks Apollo Server 5 + Express + Postgres + pgvector + Module Federation MFE for the broader CyberSkill platform. The demo monorepo is *not* CyberOS — but ADR-SHB-001 (P00-T02) mandates portability constraints. The monorepo's tech choices must be CyberOS-compatible (no foot-guns that prevent later port). Specifically: package boundaries map cleanly to CyberOS modules; only MIT/Apache-licensed primitives (no GPL); CyberSkill-internal package naming convention follows `@cyberskill/*` namespace.
+The `shinhanos_tech_stack` memory note locks Apollo Server 5 + Express + Postgres + pgvector + Module Federation MFE for the broader CyberSkill platform. The demo monorepo is *not* ShinhanOS — but ADR-SHB-001 (P00-T02) mandates portability constraints. The monorepo's tech choices must be ShinhanOS-compatible (no foot-guns that prevent later port). Specifically: package boundaries map cleanly to ShinhanOS modules; only MIT/Apache-licensed primitives (no GPL); CyberSkill-internal package naming convention follows `@cyberskill/*` namespace.
 
 There is a downstream-reuse dimension: every Phase 1+ task lives in this monorepo. P01-T02 (CI/CD) extends `.github/workflows`; P01-T03 (secrets) configures Doppler/Vault from this repo; P01-T04 (IaC) lives in `infra/`; Phase 2 lives in `engine/`. A sloppy skeleton makes every downstream task worse. A precise skeleton makes every downstream task easier.
 
@@ -92,7 +92,7 @@ A scaffolded monorepo at `cyberskill-official/shinhan-innoboost-engine` with all
 - **Use Bun instead of Node.** Rejected: Bun is impressive but its production-readiness for our specific stack (Apollo Server 5, vLLM clients, etc.) is not yet verified; demo timeline cannot absorb a Bun-related debug spiral.
 - **Use Yarn classic (1.x).** Rejected: actively unmaintained; Yarn Berry or pnpm are the choices; pnpm wins per above.
 - **Skip the skeleton; let engineers create files as they go.** Rejected: see "Problem" — divergence guaranteed.
-- **Skip the eight-workspace structure; use one big workspace.** Rejected: eight is the right number for this build's clarity, parallelism, and post-PoC port to CyberOS modules.
+- **Skip the eight-workspace structure; use one big workspace.** Rejected: eight is the right number for this build's clarity, parallelism, and post-PoC port to ShinhanOS modules.
 
 ## Success Metrics
 
@@ -121,7 +121,7 @@ A scaffolded monorepo at `cyberskill-official/shinhan-innoboost-engine` with all
 - **Upstream**: ADR-SHB-001 (P00-T02) ratified — host-platform decision must be locked.
 - **People**: lead engineer authoring the scaffold; one platform engineer for Helm stubs and the distroless Dockerfile pattern; founder for repo-creation approval (since `cyberskill-official` org access is restricted).
 - **External**: GitHub org `cyberskill-official` (per `cyberskill_company_facts`); npm registry for internal packages; Turborepo Remote Cache (Vercel or self-hosted Cloudflare R2 — pick during this task, document in README).
-- **Memory references**: `cyberskill_company_facts`, `cyberos_tech_stack`, `cyberos_id_conventions` (for module naming compatibility with CyberOS).
+- **Memory references**: `cyberskill_company_facts`, `shinhanos_tech_stack`, `shinhanos_id_conventions` (for module naming compatibility with ShinhanOS).
 
 ## Open Questions
 

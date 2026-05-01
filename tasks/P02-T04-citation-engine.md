@@ -42,7 +42,7 @@ Specific gaps if we shortcut:
 - **Without lineage in citations, source-table-level changes are opaque.** Lineage in the citation lets the user see "this comes from `consumer_loans` and `payments`; if Shinhan renames `payments`, this metric is impacted".
 - **Without versions in citations, the metric definition can drift silently.** Citations pin to a metric version; if the metric is upgraded, prior answers still cite their original version.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "citation engine" as a foundational primitive that satisfies multi-jurisdictional rules. This is its implementation.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "citation engine" as a foundational primitive that satisfies multi-jurisdictional rules. This is its implementation.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For citations, "richer" means: every numeric value carries a citation; "show me how" drawer reveals source, lineage, version, freshness, confidence; copy-citation pattern lets users paste the citation into emails or reports. Each layer is feasible; together they form the trust contract.
 
@@ -125,7 +125,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P02-T01 (metric layer); P02-T02 (NL→SQL pipeline output); P02-T03 (policy layer triggers faithfulness); P02-T05 (confidence tier); P02-T07 (PDPL classifier — for sensitive-data masking in citation display); P02-T09 (audit log).
 - **Downstream**: P05-T01 (chat surface), P05-T05 (admin console).
 - **People**: engine tech lead authoring; eng-llm reviewing the annotator's claim-detection logic; design lead reviewing trust-drawer UX; eng-sec reviewing cross-tenant authorization.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

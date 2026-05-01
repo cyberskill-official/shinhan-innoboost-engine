@@ -34,7 +34,7 @@ Specific gaps if we shortcut:
 - **Without admin break-glass procedure, recovery from an admin lockout requires manual database surgery.** Documented break-glass with audit logging is the difference between a 5-minute recovery and a 5-hour panic.
 - **Without audit logging of auth events, ISO 27001 control A.5.16 (identity management) and SOC 2 CC6.1 (logical access) can't be evidenced.**
 
-The `cyberos_overview` memory note describes CyberOS as a multi-tenant ops platform; the demo's auth model should be CyberOS-compatible in shape (per ADR-SHB-001 portability constraint). Specifically: realms map to CyberOS tenants in the post-PoC port; OIDC client IDs and group claims are namespaced consistently.
+The `shinhanos_overview` memory note describes ShinhanOS as a multi-tenant ops platform; the demo's auth model should be ShinhanOS-compatible in shape (per ADR-SHB-001 portability constraint). Specifically: realms map to ShinhanOS tenants in the post-PoC port; OIDC client IDs and group claims are namespaced consistently.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For auth, "richer" means: Keycloak (richer than DIY) + MFA mandatory (richer than optional) + SAML pre-configured (richer than "we'll add it later") + per-BU realms (richer than one-realm-fits-all) + audit logging shipped to central observability (richer than realm-local logs). Each layer is well-trodden Keycloak territory; together they form an enterprise-grade identity story.
 
@@ -118,7 +118,7 @@ A Keycloak deployment in the staging cluster (and the on-prem deployment recipe,
 - **Upstream**: P01-T01 (monorepo); P01-T02 (CI/CD); P01-T03 (secrets); P01-T04 (IaC for Postgres backend + cluster + ingress); P00-T03 (brand surface for themes).
 - **People**: eng-sec authoring; platform engineer for Helm config; design lead for theme packaging.
 - **External**: Keycloak 25.x; Postgres for backend (provisioned by P01-T04); cert-manager for TLS.
-- **Memory references**: `cyberos_overview`, `cyberos_data_residency`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_overview`, `shinhanos_data_residency`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

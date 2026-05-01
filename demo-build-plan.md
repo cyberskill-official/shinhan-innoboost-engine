@@ -17,7 +17,7 @@
 **Goal**: Unblock everything else. No code yet.
 
 - Confirm sponsor consent — Engagement A and Engagement B owners agree we can show sanitised, anonymised flavours to Shinhan under mutual NDA. Get it in writing.
-- Decide host platform: standalone repo (faster) vs. CyberOS module (more strategic, slower). Recommendation: standalone now, port to CyberOS post-PoC.
+- Decide host platform: standalone repo (faster) vs. ShinhanOS module (more strategic, slower). Recommendation: standalone now, port to ShinhanOS post-PoC.
 - Lock the brand surface: Global Design System tokens, logo lockup, BU-specific theme variants (Bank navy, SVFC slate, Securities charcoal).
 - Lock the AI Doctrine version reference (v1.0.0, locked 2026-04-25). Pin the excerpt set we'll attach to each BU pitch.
 - Choose model stack: primary (Claude Sonnet for SQL gen + Opus for adversarial eval), fallback (open-weight on-prem — Qwen 2.5 72B per Shinhan's stated openness to Qwen).
@@ -281,7 +281,7 @@ Each scenario has:
 - SBV regulatory mapping: relevant circulars on banking IT (e.g., 09/2020/TT-NHNN on IT operations, 50/2024/TT-NHNN if applicable), incident reporting timelines.
 - ISO 27001 control mapping (which controls are in place, which are roadmap).
 - ISO 42001 (AI management system) control mapping — given Shinhan's appetite for AI, this is a wedge.
-- SOC 2 Type II readiness checklist (your CyberOS roadmap is already heading here).
+- SOC 2 Type II readiness checklist (your ShinhanOS roadmap is already heading here).
 - Threat model: STRIDE per service + LLM-specific (prompt injection, training-data extraction, model-output exfiltration, adversarial inputs).
 - Penetration-test readiness: scoped, vendor selected, NDA template ready.
 - Data classification policy + tagged in every table.
@@ -334,7 +334,7 @@ Each scenario has:
 
 ### 10.4 Migration / data residency
 - VN-hosted infra story: Viettel IDC, VNPT IDC, FPT IDC viable; mapping per option.
-- Per-tenant residency engineering (already in your CyberOS memory) ported.
+- Per-tenant residency engineering (already in your ShinhanOS memory) ported.
 
 **Phase 10 deliverables**: three deployment targets, sizing + ops runbooks, air-gap bundle.
 

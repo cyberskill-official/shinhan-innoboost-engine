@@ -2,7 +2,7 @@
 title: "Stand up project workspace (Slack channel, tracker, drive)"
 author: "@cyberskill-pm"
 department: product
-status: draft
+status: in_progress
 priority: p1
 created_at: "2026-04-29"
 ai_authorship: assisted
@@ -36,7 +36,7 @@ There are also compliance dimensions:
 - **ISO 27001 control A.5.4 (management responsibilities)** requires evidence of project governance with defined roles, responsibilities, and accountability. A workspace with stable conventions, a tracker with assigned tasks, and a weekly status cadence is the cheapest possible feed of this evidence.
 - **SOC 2 CC1.4 (commitments to internal personnel)** requires evidence that the squad knows what's expected of them. The workspace-conventions doc + weekly status cadence satisfies this.
 
-The `cyberos_overview` memory note suggests CyberSkill is using Linear (or ClickUp) and Slack already; we're not introducing new tools, just standing up project-specific instances with conventions tuned to the Innoboost context.
+The `shinhanos_overview` memory note suggests CyberSkill is using Linear (or ClickUp) and Slack already; we're not introducing new tools, just standing up project-specific instances with conventions tuned to the Innoboost context.
 
 There is also a behavioural-design point. A blank workspace has no gravity — squad members default to their existing habits (DM their pair, post to a personal channel). A workspace pre-populated with the INDEX, with pinned messages explaining conventions, and with a Friday status cadence has gravity from day 1. The opportunity cost of not setting it up early is dramatic: each squad member who spends the first week working without the workspace conventions builds habits we then have to break.
 
@@ -123,7 +123,7 @@ A four-part workspace consisting of: (1) Slack channel `#shinhan-innoboost-2026`
 - **Templates**: the FR template (`tasks/_TEMPLATE.md`); the ADR template; internal CyberSkill workspace-conventions baseline (use as reference, customise for Innoboost specifics).
 - **Tools**: existing CyberSkill Slack workspace; existing Linear or ClickUp licence; existing file-storage workspace (Google Drive / Dropbox / etc.).
 - **People**: PM authoring; ops lead for access-control setup; founder for sign-off on cadence and conventions.
-- **Memory references**: `cyberos_overview`, `cyberskill_company_facts`, `feedback_enterprise_voice`.
+- **Memory references**: `shinhanos_overview`, `cyberskill_company_facts`, `feedback_enterprise_voice`.
 - **Downstream**: gates the productive use of every Phase 1+ task (no upstream Task ID dependencies, but extremely high downstream impact).
 
 ## Open Questions

@@ -39,7 +39,7 @@ Specific gaps if we shortcut:
 - **Without mitigation references, the model is a list, not a system.**
 - **Without residual-risk acceptance, leftover risks are denied rather than acknowledged.**
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "threat modelling" as a foundational practice.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "threat modelling" as a foundational practice.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For the threat model, "richer" means: STRIDE per service + LLM-specific surface + Shinhan-specific banking threats + scoring + mitigation references + residual-risk register + quarterly review.
 

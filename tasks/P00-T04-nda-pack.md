@@ -2,7 +2,7 @@
 title: "Assemble NDA pack and legal scaffolding"
 author: "@cyberskill-legal"
 department: operations
-status: draft
+status: in_progress
 priority: p0
 created_at: "2026-04-29"
 ai_authorship: assisted

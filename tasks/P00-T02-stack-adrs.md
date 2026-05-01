@@ -2,7 +2,7 @@
 title: "Lock platform, model, and warehouse stack ADRs"
 author: "@stephen-cheng"
 department: engineering
-status: draft
+status: in_progress
 priority: p0
 created_at: "2026-04-29"
 ai_authorship: co_authored
@@ -19,19 +19,19 @@ template: feature_request@1
 
 ## Summary
 
-Author and ratify three numbered Architecture Decision Records (ADRs) that lock the foundational technical choices the entire downstream demo build will inherit: ADR-SHB-001 (host platform — standalone repo vs. CyberOS module embedding), ADR-SHB-002 (model stack — primary cloud LLM, on-prem fallback model, adversarial eval model, routing logic between them), and ADR-SHB-003 (warehouse stack — Postgres / BigQuery / Snowflake adapter strategy and feature-parity matrix). Every Phase 1–13 task references these ADRs by ID in its Dependencies section. Ratification happens in a 60-minute architecture council session attended by the founder, both tech leads (Engine, Platform), and a Frontend lead observer; decisions are recorded in the ADR's Sign-off block; minutes capture dissents. Without ratification within 7 days of this task being assigned, downstream squads will make unilateral choices that diverge irreconcilably and produce 1–2 weeks of late-cycle reconciliation work.
+Author and ratify three numbered Architecture Decision Records (ADRs) that lock the foundational technical choices the entire downstream demo build will inherit: ADR-SHB-001 (host platform — standalone repo vs. ShinhanOS module embedding), ADR-SHB-002 (model stack — primary cloud LLM, on-prem fallback model, adversarial eval model, routing logic between them), and ADR-SHB-003 (warehouse stack — Postgres / BigQuery / Snowflake adapter strategy and feature-parity matrix). Every Phase 1–13 task references these ADRs by ID in its Dependencies section. Ratification happens in a 60-minute architecture council session attended by the founder, both tech leads (Engine, Platform), and a Frontend lead observer; decisions are recorded in the ADR's Sign-off block; minutes capture dissents. Without ratification within 7 days of this task being assigned, downstream squads will make unilateral choices that diverge irreconcilably and produce 1–2 weeks of late-cycle reconciliation work.
 
 ## Problem
 
 The demo-build-plan.md leaves three foundational decisions explicitly open and explicitly under-specified. Each open decision is a forking point that, if left to engineering choice on the fly, will produce divergent code paths across squads and force expensive reconciliation later — exactly the failure mode the demo timeline cannot absorb.
 
-**Host platform openness.** The plan says: "standalone repo (faster) vs. CyberOS module (more strategic, slower). Recommendation: standalone now, port to CyberOS post-PoC." A recommendation is not a ratification. Some engineers (especially those closer to CyberOS) will instinctively start by carving out CyberOS-internal scaffolding. Others will start in a clean greenfield repo. Both can produce working code; their merge into a shared system is what fails.
+**Host platform openness.** The plan says: "standalone repo (faster) vs. ShinhanOS module (more strategic, slower). Recommendation: standalone now, port to ShinhanOS post-PoC." A recommendation is not a ratification. Some engineers (especially those closer to ShinhanOS) will instinctively start by carving out ShinhanOS-internal scaffolding. Others will start in a clean greenfield repo. Both can produce working code; their merge into a shared system is what fails.
 
 **Model stack underspecification.** The plan says: "primary (Claude Sonnet for SQL gen + Opus for adversarial eval), fallback (open-weight on-prem — Qwen 2.5 72B per Shinhan's stated openness to Qwen)." Three things require concrete locking: which Claude model exactly (Sonnet 4.6, 4.7?), which Qwen variant and quantisation (72B FP16, 72B AWQ Q4, 72B GPTQ?), and what the routing logic between primary and fallback is (failover criteria, manual override, per-tenant policy). The Innoboost Q&A confirms Shinhan's openness to Qwen ("Using open-source models like Qwen is perfectly acceptable") and explicitly disclaims preference for any specific model — this is good news, but it shifts the choice fully onto us, which means if we don't lock it, every engineer locks it differently in their corner of the build.
 
 **Warehouse stack underspecification.** The plan commits to "Postgres (laptop demo), BigQuery + Snowflake adapters (cloud demo), on-prem Postgres adapter (commercialisation track)." It does not specify which warehouse-adapter features are blessed across all three (every metric-layer feature should work on every backend at parity), which features are best-effort (cloud-only, with graceful degradation on Postgres), and which are not supported (no equivalent on Postgres, must be feature-flagged off). Without a parity matrix, the engine team will write features that work in BigQuery but silently fail or produce different results on Postgres — and that failure mode is exactly the kind of subtle bug Shinhan reviewers (or worse, post-PoC commercial customers) will detect at the worst possible moment.
 
-The `cyberos_tech_stack` memory note already commits to Apollo Server 5 + Express + Postgres + pgvector + Module Federation MFE for the broader CyberSkill platform. The demo's stack is *not* the same as CyberOS's — the demo is a focused chat-with-data system with HITL, not a multi-tenant ops platform. The two will diverge. ADR-SHB-001 must explicitly capture *where* they diverge so downstream readers know which decisions inherit from CyberOS and which are demo-specific. Without that explicit captured divergence, engineers will assume defaults that are wrong for either context.
+The `shinhanos_tech_stack` memory note already commits to Apollo Server 5 + Express + Postgres + pgvector + Module Federation MFE for the broader CyberSkill platform. The demo's stack is *not* the same as ShinhanOS's — the demo is a focused chat-with-data system with HITL, not a multi-tenant ops platform. The two will diverge. ADR-SHB-001 must explicitly capture *where* they diverge so downstream readers know which decisions inherit from ShinhanOS and which are demo-specific. Without that explicit captured divergence, engineers will assume defaults that are wrong for either context.
 
 The `feedback_p1_scope_preference` memory note records: "Stephen consistently rejects minimal-MVP recommendations; lean toward richer P1 unless sharp trade-off." This bias must be reflected in the ADR process. For each decision, the default option is the *richer* configuration unless the council identifies a sharp trade-off (cost-of-time, irreversibility, complexity-debt) that justifies minimisation. The council's job is not to chase minimum viable; it is to ratify the right scope given the founder's preference and the demo's stakes.
 
@@ -45,13 +45,13 @@ Three numbered ADRs, each following the canonical CyberSkill `adr@1` template (C
 
 ### Subtasks
 
-- [ ] **Pre-meeting: draft ADR-SHB-001 (host platform).** Engine tech lead drafts. Recommended decision: standalone repo `cyberskill-official/shinhan-innoboost-engine` for the demo and PoC build, with explicit module-portability constraints — no CyberOS-specific imports; only MIT/Apache-licensed primitives (no GPL); package boundaries that map cleanly to CyberOS modules (engine → CyberOS AI module; HITL → CyberOS HITL module; eval → CyberOS observability module). Alternative captured: build directly inside CyberOS — rejected because CyberOS is in mid-development and binding the demo to its release schedule risks demo slippage. Re-evaluation trigger captured: if Shinhan signs commercial in Q3 2026, port to CyberOS in Q4 2026 with a dedicated migration task.
+- [ ] **Pre-meeting: draft ADR-SHB-001 (host platform).** Engine tech lead drafts. Recommended decision: standalone repo `cyberskill-official/shinhan-innoboost-engine` for the demo and PoC build, with explicit module-portability constraints — no ShinhanOS-specific imports; only MIT/Apache-licensed primitives (no GPL); package boundaries that map cleanly to ShinhanOS modules (engine → ShinhanOS AI module; HITL → ShinhanOS HITL module; eval → ShinhanOS observability module). Alternative captured: build directly inside ShinhanOS — rejected because ShinhanOS is in mid-development and binding the demo to its release schedule risks demo slippage. Re-evaluation trigger captured: if Shinhan signs commercial in Q3 2026, port to ShinhanOS in Q4 2026 with a dedicated migration task.
 - [ ] **Pre-meeting: draft ADR-SHB-002 (model stack).** Engine tech lead drafts with founder input. Decisions to lock:
   - Primary NL→SQL generator: Claude Sonnet 4.6 (model ID `claude-sonnet-4-6` per `product_information` system context).
   - Adversarial eval and policy-layer overseer: Claude Opus 4.6 (model ID `claude-opus-4-6`).
   - On-prem fallback: Qwen 2.5 72B Instruct, AWQ-quantised Q4 for inference on a single H100 80GB; FP16 only available with multi-H100 setups (not the demo's hardware target).
   - Routing matrix: cloud primary; fallback to on-prem Qwen on Claude 5xx, Claude rate-limit, or per-tenant policy ("air-gap mode"); manual override per tenant. Routing logic is policy-layer-driven, not model-layer-driven, so swapping primary or fallback is a config change.
-  - Embedding model: per `cyberos_tech_stack` (already locked to pgvector for Postgres); choice of embedding model itself is OpenAI text-embedding-3-large for cloud / Qwen-Embedding for on-prem, mediated by the same routing layer.
+  - Embedding model: per `shinhanos_tech_stack` (already locked to pgvector for Postgres); choice of embedding model itself is OpenAI text-embedding-3-large for cloud / Qwen-Embedding for on-prem, mediated by the same routing layer.
   - Adversarial-test model: Claude Opus 4.6 generates the prompt-injection corpus in P04-T02; this is captured in ADR for traceability.
   - Rejected alternatives, each with a one-line reason: GPT-4 family (not as strong on financial-domain SQL; pricier per token); Llama-3-70B (weaker structured-output reliability vs. Qwen-2.5-72B in our internal evals); Gemini 2.5 (cloud-lock-in and less Vietnamese-language fluency); DeepSeek (geopolitical risk for a Korean financial customer); fine-tuning a base model (out of scope for demo timeline).
 - [ ] **Pre-meeting: draft ADR-SHB-003 (warehouse stack).** Platform tech lead drafts. Decisions to lock:
@@ -61,11 +61,11 @@ Three numbered ADRs, each following the canonical CyberSkill `adr@1` template (C
   - Row-level security: handled at the engine policy layer (P02-T03), not at the warehouse RLS layer, for portability across backends.
   - Feature-parity matrix as appendix: every metric-layer feature × every backend, marked Blessed (works at parity) / Best-effort (cloud-only with documented degradation) / Not-supported (feature-flagged off). The matrix is the canonical reference for engine engineers when authoring new metric capabilities.
   - Rejected alternatives: ClickHouse (no production experience on the team); DuckDB as a primary (great for laptop, weak for on-prem multi-user concurrency); MongoDB or other NoSQL (does not match the metric-layer SQL-generation model); single-vendor warehouse-only commitment (closes off SF9 / SB5 customer fit).
-- [ ] **Schedule the architecture council session.** 60 minutes. Attendees: founder (chair), engine tech lead, platform tech lead, frontend tech lead (observer). Pre-read material: the three draft ADRs, the demo-build-plan.md, the Innoboost Q&A doc, and the `cyberos_tech_stack` memory note. Send invites at least 48 hours ahead.
+- [ ] **Schedule the architecture council session.** 60 minutes. Attendees: founder (chair), engine tech lead, platform tech lead, frontend tech lead (observer). Pre-read material: the three draft ADRs, the demo-build-plan.md, the Innoboost Q&A doc, and the `shinhanos_tech_stack` memory note. Send invites at least 48 hours ahead.
 - [ ] **Run the council session.** Walk through each ADR; capture dissents, alternative phrasings, and any forced revisions. The session output is three ratified ADRs *or* explicit blockers — never silent disagreement.
 - [ ] **Ratify in the Sign-off block.** Founder signs off on each ADR. If any ADR is not ratified at the council, schedule a follow-up within 72 hours with the specific blocker on the agenda.
 - [ ] **Publish the ADRs.** Commit to `docs/adr/shinhan-innoboost/{001..003}-{slug}.md`. Tag the commit `adr-shb-001-003-ratified` for searchability.
-- [ ] **Update the cyberos_tech_stack memory note.** Add a divergence cross-reference: "Demo stack diverges at: {host repo, model routing, warehouse parity matrix}; see docs/adr/shinhan-innoboost/{001..003}." This makes the divergence explicit so future CyberOS work doesn't accidentally inherit demo-specific choices.
+- [ ] **Update the shinhanos_tech_stack memory note.** Add a divergence cross-reference: "Demo stack diverges at: {host repo, model routing, warehouse parity matrix}; see docs/adr/shinhan-innoboost/{001..003}." This makes the divergence explicit so future ShinhanOS work doesn't accidentally inherit demo-specific choices.
 - [ ] **Publish the TL;DR.** One-page document in the project workspace summarising the three decisions and what they unblock. Audience: every squad member. Not a substitute for the ADRs themselves; an entry point.
 - [ ] **Add ADR cross-references.** Update every existing Phase 1+ FR (in the tasks/ folder) to reference the relevant ADR ID in its Dependencies section. Going forward, all new FRs include the ADR refs from inception.
 - [ ] **Capture council minutes.** Author meeting notes including attendees, key discussion points, dissents (if any), and follow-up actions. Commit to `docs/adr/shinhan-innoboost/_council-minutes-{date}.md`.
@@ -76,14 +76,14 @@ Three numbered ADRs, each following the canonical CyberSkill `adr@1` template (C
 - Each ADR has the founder's signature in the Sign-off block.
 - Architecture council meeting minutes are committed and accessible to the squad.
 - TL;DR one-pager is published to the project workspace.
-- `cyberos_tech_stack` memory note is updated with the divergence cross-reference.
+- `shinhanos_tech_stack` memory note is updated with the divergence cross-reference.
 - Every existing Phase 1+ FR references the appropriate ADR ID in its Dependencies section.
 - All three ADRs are linked from the project tracker's main project description.
 
 ## Alternatives Considered
 
 - **Skip ADRs; let engineers decide on the fly.** Rejected because drift is guaranteed at this scale of squad and timeline; reconciliation costs more than upfront ratification.
-- **Adopt the CyberOS stack wholesale (build the demo as a CyberOS module).** Rejected because CyberOS is mid-development; binding the demo to its release schedule risks demo slippage. Captured as the alternative in ADR-SHB-001 with an explicit re-evaluation trigger.
+- **Adopt the ShinhanOS stack wholesale (build the demo as a ShinhanOS module).** Rejected because ShinhanOS is mid-development; binding the demo to its release schedule risks demo slippage. Captured as the alternative in ADR-SHB-001 with an explicit re-evaluation trigger.
 - **One unified ADR covering all three decisions.** Rejected because the three decisions have different blast radii and supersession lifetimes — model stack will be revisited as new models ship; warehouse stack is more stable; host platform is a one-time strategic decision. Bundling them into one ADR forces them to share a supersession history they don't naturally share.
 - **Use a single warehouse adapter (Postgres only) for the demo to simplify the build.** Rejected because the SF9 brief mentions "BigQuery, Snowflake, and on-prem PostgreSQL warehouses" explicitly in the Form Answers, and the SB5 brief involves a Bank with established BI tooling that almost certainly is not on Postgres. Multi-adapter support is a credibility signal in the interview, not optional polish.
 - **Defer the model-stack lock until after the live-coding rehearsals reveal Claude's actual SQL-generation reliability.** Rejected because the entire engine architecture (policy layer, prompt-injection defence, eval harness, routing logic) depends on knowing the model up front; deferring locks pushes engineering into speculation.
@@ -102,7 +102,7 @@ Three numbered ADRs, each following the canonical CyberSkill `adr@1` template (C
 - Architecture council session with minutes and dissent capture.
 - TL;DR one-pager.
 - Cross-reference into existing Phase 1+ FRs.
-- Update to `cyberos_tech_stack` memory note.
+- Update to `shinhanos_tech_stack` memory note.
 
 ### Out of scope
 - Implementation work (handled in Phase 1+ tasks).
@@ -113,7 +113,7 @@ Three numbered ADRs, each following the canonical CyberSkill `adr@1` template (C
 ## Dependencies
 
 - **Templates**: `adr@1` template from CyberSkill docs library.
-- **Memory references**: `cyberos_tech_stack` (for divergence reasoning), `cyberos_architecture` (for inheritance reasoning), `cyberos_data_residency` (for warehouse residency reasoning), `feedback_p1_scope_preference` (for the richer-default bias), `feedback_enterprise_voice` (for ADR-publishing voice).
+- **Memory references**: `shinhanos_tech_stack` (for divergence reasoning), `shinhanos_architecture` (for inheritance reasoning), `shinhanos_data_residency` (for warehouse residency reasoning), `feedback_p1_scope_preference` (for the richer-default bias), `feedback_enterprise_voice` (for ADR-publishing voice).
 - **People**: founder (chair, ratifier), engine tech lead (drafts ADR-SHB-001 and ADR-SHB-002), platform tech lead (drafts ADR-SHB-003), frontend tech lead (observes).
 - **External**: model availability and licence verification (Anthropic API access for Claude Sonnet 4.6 / Opus 4.6 confirmed; Qwen-2.5-72B-Instruct on HuggingFace under Apache 2.0 confirmed).
 - **No upstream Task ID dependencies.** This is a leaf task that gates much of Phase 1.
@@ -127,7 +127,7 @@ The model-stack ADR makes claims about model behaviour that must be grounded in 
 The ADR is ratified by the founder in the Sign-off block; both tech leads counter-sign. Every downstream FR that references the ADR includes the ADR ID, making it possible to audit downstream choices back to the ratification record. If a chosen model is later swapped (e.g., Claude Sonnet 4.7 ships and we adopt it), a superseding ADR (ADR-SHB-002a) is authored — never a silent swap. The supersession chain is part of the ADR template; the audit chain remains intact across model upgrades.
 
 ### Failure Modes
-If a chosen model is deprecated, returns degraded results, or hits a rate-limit ceiling during the PoC, the routing matrix in ADR-SHB-002 specifies the fallback path: cloud → on-prem Qwen, with manual per-tenant override. If the warehouse adapter for a chosen backend has a bug, the engine falls back to a degraded query mode (cached metric value with a "stale" warning in the UI), per the engine's confidence-tier behaviour (P02-T05). If the demo-repo embedding decision (standalone vs. CyberOS) is later reversed, the portability constraints in ADR-SHB-001 ensure the port is mechanical not heroic. If the council itself fails to ratify (founder is blocked, tech lead disagrees), the task escalates immediately and downstream Phase 1 work pauses for ≤ 72 hours pending resolution.
+If a chosen model is deprecated, returns degraded results, or hits a rate-limit ceiling during the PoC, the routing matrix in ADR-SHB-002 specifies the fallback path: cloud → on-prem Qwen, with manual per-tenant override. If the warehouse adapter for a chosen backend has a bug, the engine falls back to a degraded query mode (cached metric value with a "stale" warning in the UI), per the engine's confidence-tier behaviour (P02-T05). If the demo-repo embedding decision (standalone vs. ShinhanOS) is later reversed, the portability constraints in ADR-SHB-001 ensure the port is mechanical not heroic. If the council itself fails to ratify (founder is blocked, tech lead disagrees), the task escalates immediately and downstream Phase 1 work pauses for ≤ 72 hours pending resolution.
 
 ## Open Questions
 
@@ -135,7 +135,7 @@ If a chosen model is deprecated, returns degraded results, or hits a rate-limit 
 - Q2: For air-gap deployments, can we ship Claude API at all (clearly no), and is the on-prem Qwen path the *only* path? Recommendation: yes — air-gap = Qwen only; documented in routing matrix.
 - Q3: Do we need to validate that Qwen-2.5-72B-Instruct's Apache 2.0 licence permits commercial deployment by a financial customer in Vietnam? Confirmation needed from legal.
 - Q4: For BigQuery / Snowflake, do we ship adapters as part of the demo or only as architectural placeholders? Recommendation: ship working Postgres adapter for the demo; ship BigQuery and Snowflake as pluggable adapters with tests, but only seed Postgres data for the interview.
-- Q5: Does the demo monorepo follow CyberSkill's `cyberos_id_conventions` for module IDs? Recommendation: yes for portability; documented in ADR-SHB-001.
+- Q5: Does the demo monorepo follow CyberSkill's `shinhanos_id_conventions` for module IDs? Recommendation: yes for portability; documented in ADR-SHB-001.
 
 ## Implementation Notes
 
@@ -166,7 +166,7 @@ If a chosen model is deprecated, returns degraded results, or hits a rate-limit 
 | ADR-SHB-003 — Warehouse stack | `docs/adr/shinhan-innoboost/003-warehouse-stack.md` | Founder | Indefinite |
 | Council minutes | `docs/adr/shinhan-innoboost/_council-minutes-{YYYYMMDD}.md` | Founder | Indefinite |
 | TL;DR one-pager | `docs/adr/shinhan-innoboost/_tldr.md` | Founder | Until superseded |
-| Updated `cyberos_tech_stack` memory note | Memory file | Founder | Continuous |
+| Updated `shinhanos_tech_stack` memory note | Memory file | Founder | Continuous |
 
 ## Operational Risks
 

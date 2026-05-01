@@ -35,7 +35,7 @@ Specific gaps if we shortcut:
 
 The secrets layer also has a downstream-multiplier dimension: every Phase 1+ task that needs to talk to anything (LLM APIs, warehouses, OAuth providers, GitHub, Lambda, Doppler itself) needs secrets. A clean secrets layer makes everything else cleaner; a sloppy one means every task reinvents secret-handling badly.
 
-The `cyberos_data_residency` memory note mandates per-tenant residency for VN tenants. The secrets layer is part of that — VN-tenant secrets must be stored in VN-resident storage in the production deployment. Doppler's data residency may not satisfy this; Vault on VN-hosted infra will. ADR-SHB-002 has already routed model-stack residency; this task does the same for secrets.
+The `shinhanos_data_residency` memory note mandates per-tenant residency for VN tenants. The secrets layer is part of that — VN-tenant secrets must be stored in VN-resident storage in the production deployment. Doppler's data residency may not satisfy this; Vault on VN-hosted infra will. ADR-SHB-002 has already routed model-stack residency; this task does the same for secrets.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For secrets, "richer" means: dual-backend (Doppler primary, Vault secondary) with a unified envelope so any consumer can switch without code changes; rotation cadences set up from day 1; access logs aggregated centrally; emergency-revoke runbook ready before anything is set up. Cheap; high credibility.
 
@@ -135,7 +135,7 @@ A two-layer secrets architecture: (1) Doppler as the primary, hosted secrets bac
 - **Upstream**: P01-T01 (monorepo skeleton); P01-T02 (CI/CD) for the secret-consumption integration; ADR-SHB-001 + ADR-SHB-003 (P00-T02).
 - **People**: eng-sec authoring; ops lead for rotation procedures and account setup; founder for sign-off on emergency-revoke procedures.
 - **External**: Doppler account (paid tier required for SAML / advanced audit features); HashiCorp Vault (open source; for the migration plan); cloud-provider IAM integration (GCP Workload Identity primarily).
-- **Memory references**: `cyberos_data_residency`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

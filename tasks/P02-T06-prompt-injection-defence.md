@@ -41,7 +41,7 @@ Specific gaps if we shortcut:
 
 The Innoboost Q&A's Section VI flags that real customer data is not provided during PoC ("simulated/masked data"); even in a PoC, an attacker on the user side could attempt injection. Defence must work even with masked data.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "prompt-injection defence" as a foundational technical primitive that satisfies multi-jurisdictional rules.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "prompt-injection defence" as a foundational technical primitive that satisfies multi-jurisdictional rules.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For prompt-injection defence, "richer" means: input sanitiser + system-prompt isolation + output classifier + adversarial corpus + continuous testing + observability of attempted injections + incident-response runbook. Each layer is well-trodden; together they form a defence-in-depth posture.
 
@@ -131,7 +131,7 @@ Setup target: 21 days from task assignment.
 - **Upstream**: P01-T01, P02-T02, P02-T09; AI Doctrine v1.0.0; ADR-SHB-002.
 - **Downstream**: P04-T02 (adversarial corpus authoring uses the same corpus or extends it); P04-T03 (eval harness runs adversarial tests).
 - **People**: eng-sec authoring; eng-llm reviewing patterns; engine tech lead reviewing pipeline integration.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

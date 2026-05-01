@@ -46,7 +46,7 @@ Specific gaps if we shortcut:
 
 The Innoboost Q&A's Section VI.6 calls this out specifically: "GenAI is probabilistic but banking needs deterministic auditable decisions." The validator + constrained generator + policy layer (P02-T03) is exactly the answer to that objection: probabilistic LLM, deterministic validation, deterministic execution.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include constrained SQL generation as one of the technical primitives that satisfies multi-jurisdictional rules.
+The `shinhanos_ai_compliance` memory note's 7 primitives include constrained SQL generation as one of the technical primitives that satisfies multi-jurisdictional rules.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For NL→SQL, "richer" means: intent classification + retrieval + constrained generation + validation + cost estimation + execution + post-processing — each layer with explicit contract; not an end-to-end black box. Each layer is auditable; together they are the chat-with-data engine.
 
@@ -139,7 +139,7 @@ Setup target: 21 days from task assignment.
 - **Downstream**: P02-T04 (citation), P02-T05 (confidence), P02-T08 (cache), P05-T01 (chat UI), P06 (HITL).
 - **People**: engine tech lead authoring; eng-llm co-authoring generator + validator + adversarial integration; eng-sec reviewing validator + prompt-isolation.
 - **External**: Anthropic API; OpenAI API for embeddings; warehouse adapters from P02-T01.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

@@ -42,7 +42,7 @@ Specific gaps if we shortcut:
 - **Without query and SIEM-export capability, the log is write-only — useful for evidence, useless for ongoing security operations.**
 - **Without integrity verification, log corruption goes undetected.** Nightly verification of the hash chain is the structural enforcement.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include "audit log" as a foundational primitive; this task is its implementation.
+The `shinhanos_ai_compliance` memory note's 7 primitives include "audit log" as a foundational primitive; this task is its implementation.
 
 The `feedback_p1_scope_preference` memory note biases us richer. For the audit log, "richer" means: append-only storage + hash-chaining + WORM export + 7-year retention + admin query UI + SIEM export + nightly integrity check + per-event-class redaction policy. Each layer is well-trodden; together they form an enterprise-grade audit posture.
 
@@ -130,7 +130,7 @@ Setup target: 21 days from task assignment.
 - **Upstream**: P01-T01, P01-T04 (Postgres + Cloud Storage), P01-T08 (KMS audit-log key).
 - **Downstream**: every Phase 1+ task that writes events; P05-T05 admin UI; P11-T04 compliance dossier.
 - **People**: eng-sec authoring; engine tech lead reviewing writer API; ops reviewing WORM mirror.
-- **Memory references**: `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

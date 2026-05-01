@@ -35,9 +35,9 @@ Specific gaps if we shortcut:
 - **Without cryptographic inventory, key-compromise response is improvised.** Inventory tells us which data is encrypted with which key; when a key is compromised, we know exactly what to re-encrypt.
 - **Without a key-compromise runbook, the response is panic.** Documented runbook means deterministic, fast recovery.
 
-The `cyberos_data_residency` memory note mandates VN-tenant data on VN-hosted infrastructure. Encryption keys for those tenants must also reside in VN-hosted KMS (or the tenant's own KMS); this task scaffolds for that.
+The `shinhanos_data_residency` memory note mandates VN-tenant data on VN-hosted infrastructure. Encryption keys for those tenants must also reside in VN-hosted KMS (or the tenant's own KMS); this task scaffolds for that.
 
-The `cyberos_ai_compliance` memory note's 7 primitives include encryption + key management as a foundational primitive that satisfies multi-jurisdictional rules simultaneously (EU AI Act, VN Cybersecurity Law, GDPR, etc.).
+The `shinhanos_ai_compliance` memory note's 7 primitives include encryption + key management as a foundational primitive that satisfies multi-jurisdictional rules simultaneously (EU AI Act, VN Cybersecurity Law, GDPR, etc.).
 
 The `feedback_p1_scope_preference` memory note biases us richer. For encryption, "richer" means: TLS 1.3 + mTLS + AES-256-GCM + BYOK + per-environment rotation + inventory + runbook + nightly drift-check. Each layer is straightforward; together they form a defence-in-depth posture banking reviewers recognise instantly.
 
@@ -129,7 +129,7 @@ Setup target: 14 days from task assignment.
 - **Upstream**: P01-T01, P01-T02, P01-T03, P01-T04 (KMS module).
 - **People**: eng-sec authoring; platform engineer for service mesh; founder ratifying rotation cadence.
 - **External**: GCP Cloud KMS; cert-manager; Let's Encrypt; linkerd (or Istio if chosen); testssl.sh / Qualys SSL Labs.
-- **Memory references**: `cyberos_data_residency`, `cyberos_ai_compliance`, `feedback_p1_scope_preference`.
+- **Memory references**: `shinhanos_data_residency`, `shinhanos_ai_compliance`, `feedback_p1_scope_preference`.
 
 ## Open Questions
 

@@ -2,7 +2,7 @@
 title: "Procure on-demand GPU for on-prem rehearsal infra"
 author: "@cyberskill-ops"
 department: operations
-status: draft
+status: in_progress
 priority: p1
 created_at: "2026-04-29"
 ai_authorship: assisted
@@ -107,7 +107,7 @@ A 30-day on-demand GPU rental plan with tiered usage: light usage during initial
 - **Upstream**: ADR-SHB-002 (P00-T02) ratified — model stack must be locked before rehearsal infra is meaningful.
 - **People**: ops lead (procurement, account setup, scripts); engineering squad (eval-harness integration); founder (cost-cap approval, day-before-demo reservation prioritisation).
 - **External**: Lambda Labs and Runpod accounts; HuggingFace account with private-mirror access for Qwen weights; AutoAWQ tool for quantisation.
-- **Memory references**: `feedback_p1_scope_preference` (lean richer when in doubt — H100 over A100); `cyberos_data_residency` (GPU rental in non-VN regions is OK for rehearsal but is a commercial-track concern for production).
+- **Memory references**: `feedback_p1_scope_preference` (lean richer when in doubt — H100 over A100); `shinhanos_data_residency` (GPU rental in non-VN regions is OK for rehearsal but is a commercial-track concern for production).
 
 ## Open Questions
 
