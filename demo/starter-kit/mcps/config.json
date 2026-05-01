@@ -1,0 +1,40 @@
+{
+  "_doc": "Claude Code MCP configurations for warehouse, Figma, and Linear integrations",
+  "mcps": {
+    "warehouse": {
+      "name": "CyberSkill Warehouse MCP",
+      "description": "Query synthetic datasets via NL→SQL pipeline",
+      "endpoint": "mcp://localhost:4100/warehouse",
+      "capabilities": ["query", "schema", "lineage"],
+      "auth": "bearer",
+      "config": {
+        "defaultBu": "securities",
+        "maxRows": 10000,
+        "timeout_ms": 30000,
+        "enableCaching": true
+      }
+    },
+    "figma": {
+      "name": "Figma Design MCP",
+      "description": "Access Figma design tokens and component specs",
+      "endpoint": "mcp://localhost:4101/figma",
+      "capabilities": ["read_tokens", "read_components", "export_assets"],
+      "auth": "api_key",
+      "config": {
+        "fileKey": "FIGMA_FILE_KEY",
+        "themes": ["svfc", "bank", "securities"]
+      }
+    },
+    "linear": {
+      "name": "Linear Project MCP",
+      "description": "Read and create Linear issues for task tracking",
+      "endpoint": "mcp://localhost:4102/linear",
+      "capabilities": ["read_issues", "create_issue", "update_status"],
+      "auth": "api_key",
+      "config": {
+        "teamId": "CYBERSKILL",
+        "defaultProject": "Shinhan Innoboost"
+      }
+    }
+  }
+}

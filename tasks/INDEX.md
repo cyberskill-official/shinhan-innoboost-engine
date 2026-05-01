@@ -110,10 +110,10 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P07-T01 | Assemble starter-kit repo (Claude Code + MCPs + primitive library) | internal_tooling | minimal | eng | — | ◯ draft | yes |
-| P07-T02 | Build & rehearse three live-build scenarios with fallback videos | user_facing | limited | eng+founder | P07-T01, P03-T03 | ◯ draft | partial |
-| P07-T03 | Author vibe-coding workflow templates (spec / demo / decision-gate) | internal_tooling | not_ai | pm | — | ◯ draft | yes |
-| P07-T04 | Compile evidence kit (past cycle artefacts + decision log) | internal_tooling | not_ai | pm+sales | P00-T01 | ◯ draft | partial |
+| P07-T01 | Assemble starter-kit repo (Claude Code + MCPs + primitive library) | internal_tooling | minimal | eng | — | ◐ in_progress | yes |
+| P07-T02 | Build & rehearse three live-build scenarios with fallback videos | user_facing | limited | eng+founder | P07-T01, P03-T03 | ◐ in_progress | partial |
+| P07-T03 | Author vibe-coding workflow templates (spec / demo / decision-gate) | internal_tooling | not_ai | pm | — | ◐ in_progress | yes |
+| P07-T04 | Compile evidence kit (past cycle artefacts + decision log) | internal_tooling | not_ai | pm+sales | P00-T01 | ◐ in_progress | partial |
 
 ## Phase 8 — Compliance & Security Hardening
 
@@ -256,6 +256,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 4 — Eval Harness**: ALL 5 tasks **in_progress** — 90 gold-set Q&A (30/BU), adversarial corpus (30+ seed), metrics framework, `cyber-eval` CLI, and reviewer-feedback loop implemented.
 - **Phase 5 — UI Shells**: ALL 5 tasks **in_progress** — shared chat surface (10 components, WCAG 2.2 AA), SVFC slate theme, Bank navy theme (HITL prominent), Securities charcoal theme (ticker-aware), admin console (6-section), dashboards (6 templates), full EN/VI i18n.
 - **Phase 6 — HITL Reviewer Queue**: ALL 5 tasks **in_progress** — triage rules engine (7 seed rules, round-robin routing, SLA 30/20/30/45), reviewer console (inbox + detail + diffs + side panel), hash-chained audit trail with calibration reports, 4-channel feedback wire, notifications (9 types × 3 channels + Shinhan webhook).
+- **Phase 7 — Vibe-Coding Demo Track**: ALL 4 tasks **in_progress** — starter-kit repo (3 presets, MCP configs, financial-types library), 3 live-build scenarios (Portfolio Summariser/Regulatory Checker/Backtest Dashboard) with kill/graduation criteria, 4 workflow templates (spec/demo/decision-gate/weekly cadence), evidence kit (3 graduated + 3 killed cycles).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
