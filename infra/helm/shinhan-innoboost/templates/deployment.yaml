@@ -1,0 +1,71 @@
+{{- range $name, $svc := (dict "engine" .Values.engine "hitl" .Values.hitl "ui" .Values.ui) }}
+{{- if $svc.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/name: {{ $name }}
+    app.kubernetes.io/part-of: shinhan-innoboost
+    app.kubernetes.io/managed-by: helm
+spec:
+  replicas: {{ $svc.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ $name }}
+        app.kubernetes.io/part-of: shinhan-innoboost
+    spec:
+      serviceAccountName: {{ include "shinhan-innoboost.serviceAccountName" $ }}
+      securityContext:
+        {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ $name }}
+          image: "{{ $.Values.image.registry }}/{{ $.Values.image.repository }}/{{ $name }}:{{ $.Values.image.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $svc.port }}
+              protocol: TCP
+          securityContext:
+            {{- toYaml $.Values.containerSecurityContext | nindent 12 }}
+          resources:
+            {{- toYaml $svc.resources | nindent 12 }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          envFrom:
+            - secretRef:
+                name: shinhan-engine-secrets
+                optional: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  labels:
+    app.kubernetes.io/name: {{ $name }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ $svc.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ $name }}
+{{- end }}
+{{- end }}

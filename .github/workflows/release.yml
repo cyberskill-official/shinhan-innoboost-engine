@@ -1,0 +1,124 @@
+# Release workflow — implements P01-T02
+# Triggers on version tags. Produces signed images with SLSA Level 3 provenance.
+
+name: release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+  actions: read
+  attestations: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ghcr.io/cyberskill-official/shinhan-innoboost
+
+jobs:
+  build-sign-push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: [engine, hitl, ui]
+    outputs:
+      digest-engine: ${{ steps.push.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./${{ matrix.workspace }}/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.workspace }}:${{ github.ref_name }}
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.workspace }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true
+          sbom: true
+
+      - name: Sign image with cosign
+        uses: sigstore/cosign-installer@v3
+      - run: |
+          cosign sign --yes ${{ env.IMAGE_PREFIX }}/${{ matrix.workspace }}@${{ steps.push.outputs.digest }}
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.IMAGE_PREFIX }}/${{ matrix.workspace }}:${{ github.ref_name }}
+          artifact-name: sbom-${{ matrix.workspace }}.spdx.json
+
+  provenance:
+    needs: build-sign-push
+    permissions:
+      actions: read
+      id-token: write
+      contents: write
+      packages: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0
+    with:
+      image: ghcr.io/cyberskill-official/shinhan-innoboost/engine
+      digest: ${{ needs.build-sign-push.outputs.digest-engine }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+
+  release-notes:
+    runs-on: ubuntu-latest
+    needs: [build-sign-push, provenance]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            echo "notes=Initial release" >> $GITHUB_OUTPUT
+          else
+            git log "$PREV_TAG"..HEAD --pretty=format:"- %s (%h)" > /tmp/notes.md
+            echo "notes<<EOF" >> $GITHUB_OUTPUT
+            cat /tmp/notes.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: |
+            ## Container Images
+
+            | Workspace | Image |
+            |---|---|
+            | engine | `${{ env.IMAGE_PREFIX }}/engine:${{ github.ref_name }}` |
+            | hitl | `${{ env.IMAGE_PREFIX }}/hitl:${{ github.ref_name }}` |
+            | ui | `${{ env.IMAGE_PREFIX }}/ui:${{ github.ref_name }}` |
+
+            All images are signed with Sigstore cosign and include SBOM attestations.
+            SLSA Level 3 provenance is attached to the engine image.
+
+            ## Changes
+
+            ${{ steps.notes.outputs.notes }}
+          generate_release_notes: true

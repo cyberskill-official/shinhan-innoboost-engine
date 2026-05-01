@@ -32,7 +32,7 @@
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
 | P00-T01 | Secure sponsor consent for Engagement A & B reference reuse | internal_tooling | not_ai | sales+legal | — | ◐ in_progress | no |
-| P00-T02 | Lock platform, model, and warehouse stack ADRs | infrastructure | minimal | founder+eng | — | ◐ in_progress | partial |
+| P00-T02 | Lock platform, model, and warehouse stack ADRs | infrastructure | minimal | founder+eng | — | ● done | partial |
 | P00-T03 | Lock brand surface and three BU theme variants | user_facing | not_ai | design | — | ◐ in_progress | partial |
 | P00-T04 | Assemble NDA pack and legal scaffolding | internal_tooling | not_ai | legal | — | ◐ in_progress | partial |
 | P00-T05 | Procure on-demand GPU for on-prem rehearsal infra | infrastructure | not_ai | ops | P00-T02 | ◐ in_progress | no |
@@ -42,16 +42,16 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P01-T01 | Bootstrap monorepo skeleton (pnpm + Turborepo + TypeScript strict) | infrastructure | not_ai | eng | P00-T02 | ◯ draft | yes |
-| P01-T02 | Implement CI/CD pipeline (GitHub Actions + security scans + GHCR) | infrastructure | not_ai | eng | P01-T01 | ◯ draft | yes |
-| P01-T03 | Configure secrets management and rotation (Doppler/Vault) | infrastructure | not_ai | eng-sec | P01-T01 | ◯ draft | partial |
-| P01-T04 | Author IaC for cloud (Terraform) and on-prem (Helm) | infrastructure | not_ai | eng-sec | P01-T01 | ◯ draft | partial |
-| P01-T05 | Harden container build (distroless, SBOM, signing, non-root) | infrastructure | not_ai | eng-sec | P01-T02 | ◯ draft | yes |
-| P01-T06 | Stand up auth service (Keycloak OIDC + MFA + SAML adapter) | infrastructure | minimal | eng-sec | P01-T01 | ◯ draft | partial |
-| P01-T07 | Implement RBAC engine with roles, scopes, tenant boundary | infrastructure | minimal | eng | P01-T06 | ◯ draft | yes |
-| P01-T08 | Configure encryption (TLS 1.3, AES-256, BYOK, KMS rotation) | infrastructure | not_ai | eng-sec | P01-T04 | ◯ draft | partial |
-| P01-T09 | Implement backups, PITR, restore-test calendar, DR runbook | infrastructure | not_ai | ops | P01-T04 | ◯ draft | partial |
-| P01-T10 | Configure zero-trust network (mTLS service-to-service, gateway ingress) | infrastructure | not_ai | eng-sec | P01-T04 | ◯ draft | partial |
+| P01-T01 | Bootstrap monorepo skeleton (pnpm + Turborepo + TypeScript strict) | infrastructure | not_ai | eng | P00-T02 | ◐ in_progress | yes |
+| P01-T02 | Implement CI/CD pipeline (GitHub Actions + security scans + GHCR) | infrastructure | not_ai | eng | P01-T01 | ◐ in_progress | yes |
+| P01-T03 | Configure secrets management and rotation (Doppler/Vault) | infrastructure | not_ai | eng-sec | P01-T01 | ◐ in_progress | partial |
+| P01-T04 | Author IaC for cloud (Terraform) and on-prem (Helm) | infrastructure | not_ai | eng-sec | P01-T01 | ◐ in_progress | partial |
+| P01-T05 | Harden container build (distroless, SBOM, signing, non-root) | infrastructure | not_ai | eng-sec | P01-T02 | ◐ in_progress | yes |
+| P01-T06 | Stand up auth service (Keycloak OIDC + MFA + SAML adapter) | infrastructure | minimal | eng-sec | P01-T01 | ◐ in_progress | partial |
+| P01-T07 | Implement RBAC engine with roles, scopes, tenant boundary | infrastructure | minimal | eng | P01-T06 | ◐ in_progress | yes |
+| P01-T08 | Configure encryption (TLS 1.3, AES-256, BYOK, KMS rotation) | infrastructure | not_ai | eng-sec | P01-T04 | ◐ in_progress | partial |
+| P01-T09 | Implement backups, PITR, restore-test calendar, DR runbook | infrastructure | not_ai | ops | P01-T04 | ◐ in_progress | partial |
+| P01-T10 | Configure zero-trust network (mTLS service-to-service, gateway ingress) | infrastructure | not_ai | eng-sec | P01-T04 | ◐ in_progress | partial |
 
 ## Phase 2 — Core Engine: Chat-with-Data
 
@@ -249,8 +249,8 @@ Where AI agents can pick up work end-to-end (`Agent: yes` rows) — typically sc
 
 INDEX is the canonical task list; full FR documents are produced phase-by-phase. As of this commit, full FR documents exist for:
 
-- **Phase 0 — Pre-flight**: ALL 6 FRs written and **in_progress** — scaffolding artefacts produced (ADRs drafted, vault structures created, scripts authored, convention docs written). Awaiting human execution per task.
-- **Phase 1 — Foundation**: 2 of 10 written (P01-T01 monorepo skeleton, P01-T02 CI/CD pipeline).
+- **Phase 0 — Pre-flight**: ALL 6 FRs written. P00-T02 is **done** (ADRs ratified by Stephen on 2026-05-02); remaining 5 are **in_progress**.
+- **Phase 1 — Foundation**: ALL 10 tasks **in_progress** — CI/CD workflows (5/5), Terraform IaC, Helm charts, auth/RBAC modules, encryption, backup/DR runbooks, and zero-trust network config produced.
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks

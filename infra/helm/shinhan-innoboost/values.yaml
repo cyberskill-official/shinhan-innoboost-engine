@@ -1,0 +1,125 @@
+# Default values for shinhan-innoboost
+# Override per-environment via values-staging.yaml, values-production.yaml
+
+image:
+  registry: ghcr.io
+  repository: cyberskill-official/shinhan-innoboost
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# ─── Engine ──────────────────────────────────────────────
+
+engine:
+  enabled: true
+  replicas: 2
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+  port: 4000
+  env:
+    NODE_ENV: production
+    LOG_LEVEL: info
+
+# ─── HITL ────────────────────────────────────────────────
+
+hitl:
+  enabled: true
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  port: 4001
+
+# ─── UI ──────────────────────────────────────────────────
+
+ui:
+  enabled: true
+  replicas: 2
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  port: 3000
+
+# ─── Database ────────────────────────────────────────────
+
+database:
+  # Cloud SQL connection (via Cloud SQL Proxy sidecar)
+  connectionName: ""
+  name: shinhan_innoboost
+
+# ─── Redis ───────────────────────────────────────────────
+
+redis:
+  host: ""
+  port: 6379
+
+# ─── Ingress ─────────────────────────────────────────────
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: innoboost-staging.cyberskill.io
+      paths:
+        - path: /api
+          service: engine
+        - path: /hitl
+          service: hitl
+        - path: /
+          service: ui
+  tls:
+    - secretName: innoboost-tls
+      hosts:
+        - innoboost-staging.cyberskill.io
+
+# ─── Service Account ─────────────────────────────────────
+
+serviceAccount:
+  create: true
+  annotations:
+    iam.gke.io/gcp-service-account: ""
+
+# ─── Pod Security ────────────────────────────────────────
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65534
+  fsGroup: 65534
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# ─── Network Policy ─────────────────────────────────────
+
+networkPolicy:
+  enabled: true
+
+# ─── Monitoring ──────────────────────────────────────────
+
+monitoring:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s

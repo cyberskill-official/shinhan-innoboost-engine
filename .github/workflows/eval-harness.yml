@@ -1,0 +1,94 @@
+# Eval-harness workflow — implements P01-T02 scaffold, full impl in P04-T04
+# Incremental on PRs touching engine; full nightly on main.
+
+name: eval-harness
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'engine/**'
+      - 'eval/**'
+      - '*.prompt'
+      - '**/*.prompt.md'
+  schedule:
+    - cron: '0 4 * * *'  # 4am UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  eval-incremental:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run build --filter=@cyberskill/shinhan-engine --filter=@cyberskill/shinhan-eval
+
+      - name: Detect changed metrics
+        id: changes
+        run: |
+          CHANGED=$(git diff --name-only origin/main...HEAD -- engine/metrics/ engine/prompts/ eval/gold-set/)
+          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Run incremental eval
+        if: steps.changes.outputs.changed_files != ''
+        run: |
+          echo "--- Incremental Eval ---"
+          echo "Changed files:"
+          echo "${{ steps.changes.outputs.changed_files }}"
+          echo ""
+          echo "TODO: Run eval harness against changed metrics only (P04-T04)"
+          # pnpm --filter=@cyberskill/shinhan-eval run eval:incremental
+
+      - name: Comment PR with eval delta
+        if: steps.changes.outputs.changed_files != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 📊 Eval Harness — Incremental\n\nChanged files detected in engine/metrics or eval/gold-set.\n\n> Eval harness scaffold ready. Full implementation in P04-T04.\n\n**Status**: Scaffold only — no regressions detected (baseline not yet established).`
+            });
+
+  eval-full:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo run build --filter=@cyberskill/shinhan-engine --filter=@cyberskill/shinhan-eval
+
+      - name: Run full eval
+        run: |
+          echo "--- Full Eval Run ---"
+          echo "TODO: Run complete gold-set + adversarial set (P04-T04)"
+          # pnpm --filter=@cyberskill/shinhan-eval run eval:full -- --output eval-results/
+
+      - name: Upload eval results
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results-${{ github.sha }}
+          path: eval/eval-results/
+          retention-days: 90

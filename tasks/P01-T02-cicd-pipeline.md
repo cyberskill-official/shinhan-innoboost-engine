@@ -2,7 +2,7 @@
 title: "Implement CI/CD pipeline (GitHub Actions + security scans + GHCR)"
 author: "@cyberskill-eng"
 department: engineering
-status: draft
+status: in_progress
 priority: p0
 created_at: "2026-04-29"
 ai_authorship: assisted

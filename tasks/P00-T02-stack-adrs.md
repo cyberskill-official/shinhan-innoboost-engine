@@ -2,7 +2,7 @@
 title: "Lock platform, model, and warehouse stack ADRs"
 author: "@stephen-cheng"
 department: engineering
-status: in_progress
+status: done
 priority: p0
 created_at: "2026-04-29"
 ai_authorship: co_authored

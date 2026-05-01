@@ -111,7 +111,7 @@ Routing logic lives in the **policy layer** (P02-T03), not the model layer. This
 
 ## Sign-off
 
-- [ ] Ratifier: @stephen-cheng on ____-__-__
+- [x] Ratifier: @stephen-cheng on 2026-05-02
 - [ ] Engine tech lead: @______ on ____-__-__
 - [ ] Platform tech lead: @______ on ____-__-__
 

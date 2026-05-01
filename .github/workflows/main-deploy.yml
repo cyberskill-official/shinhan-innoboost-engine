@@ -1,0 +1,121 @@
+# Main-deploy workflow — implements P01-T02
+# Triggers on push to main (merged PRs). Builds, signs, pushes images, deploys staging.
+
+name: main-deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: main-deploy
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ghcr.io/cyberskill-official/shinhan-innoboost
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: [engine, hitl, ui]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_PREFIX }}/${{ matrix.workspace }}
+          tags: |
+            type=sha,prefix=main-
+            type=raw,value=latest
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./${{ matrix.workspace }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true
+          sbom: true
+
+      - name: Sign image with cosign
+        uses: sigstore/cosign-installer@v3
+      - run: |
+          cosign sign --yes ${{ env.IMAGE_PREFIX }}/${{ matrix.workspace }}@${{ steps.meta.outputs.digest }}
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+
+      - name: Set up kubectl
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ secrets.GKE_CLUSTER }}
+          location: ${{ secrets.GKE_ZONE }}
+
+      - name: Deploy via Helm
+        run: |
+          helm upgrade --install shinhan-innoboost \
+            ./infra/helm/shinhan-innoboost \
+            --namespace staging \
+            --create-namespace \
+            --set image.tag=main-${{ github.sha }} \
+            --set image.registry=${{ env.REGISTRY }} \
+            --wait --timeout 5m
+
+  smoke-test:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run smoke tests
+        run: |
+          echo "--- Smoke test: engine health ---"
+          # curl -sf "${{ secrets.STAGING_URL }}/health" || exit 1
+          echo "TODO: Enable once staging is provisioned"
+
+  notify-slack:
+    runs-on: ubuntu-latest
+    needs: [build-and-push, deploy-staging, smoke-test]
+    if: always()
+    steps:
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v2
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "[shinhan-innoboost-engine] main-deploy → staging | sha=${{ github.sha }} | smoke=${{ needs.smoke-test.result }} | <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run>"
+            }

@@ -1,0 +1,10 @@
+apiVersion: v2
+name: shinhan-innoboost
+description: Shinhan Innoboost Engine — chat-with-data + HITL + vibe-coding
+type: application
+version: 0.1.0
+appVersion: "0.0.1"
+maintainers:
+  - name: CyberSkill Platform Team
+    email: platform@cyberskill.io
+dependencies: []
