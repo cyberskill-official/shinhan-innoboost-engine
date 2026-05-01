@@ -162,11 +162,11 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P12-T01 | Author 3 BU-specific 15-min pitch decks (SF9, SB5, SS1) | user_facing | not_ai | pm+founder | P05-T02..4, P11-T01..3 | ◯ draft | partial |
-| P12-T02 | Author 3 demo run-of-show plans (per BU, with failure plan) | internal_tooling | not_ai | pm | P05-T02..4 | ◯ draft | yes |
-| P12-T03 | Assemble SS1 live-coding kit (clipboard prompts, recorded fallback) | user_facing | minimal | eng+founder | P07-T01..2 | ◯ draft | partial |
-| P12-T04 | Author FAQ doc anticipating reviewer questions | internal_tooling | not_ai | sales+founder | — | ◯ draft | yes |
-| P12-T05 | Run 3 timed rehearsals (internal, friendly external, time-pressured) | internal_tooling | not_ai | founder+pm | P12-T01..4 | ◯ draft | no |
+| P12-T01 | Author 3 BU-specific 15-min pitch decks (SF9, SB5, SS1) | user_facing | not_ai | pm+founder | P05-T02..4, P11-T01..3 | ◐ in_progress | partial |
+| P12-T02 | Author 3 demo run-of-show plans (per BU, with failure plan) | internal_tooling | not_ai | pm | P05-T02..4 | ◐ in_progress | yes |
+| P12-T03 | Assemble SS1 live-coding kit (clipboard prompts, recorded fallback) | user_facing | minimal | eng+founder | P07-T01..2 | ◐ in_progress | partial |
+| P12-T04 | Author FAQ doc anticipating reviewer questions | internal_tooling | not_ai | sales+founder | — | ◐ in_progress | yes |
+| P12-T05 | Run 3 timed rehearsals (internal, friendly external, time-pressured) | internal_tooling | not_ai | founder+pm | P12-T01..4 | ◐ in_progress | no |
 
 ## Phase 13 — Post-Interview / Kickoff Readiness
 
@@ -261,6 +261,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 9 — Observability**: ALL 5 tasks **in_progress** — structured logger (JSON, Loki/OpenSearch shipping, OTel correlation), 5 Grafana dashboards (40+ panels), OTel tracing (W3C propagation, OTLP export, 24 predefined spans), SLO doc (5 primary SLOs, 8 alert rules, 6 runbooks), cost tracker (3 LLM pricing models, Z-score anomaly detection, Prometheus export).
 - **Phase 10 — Deployment Targets**: ALL 4 tasks **in_progress** — enhanced docker-compose (profiles: offline/observability, health checks, Qwen-7B), cloud deployment (per-BU namespaces, GKE Terraform, Helm commands), air-gapped on-prem bundle (SBOM + cosign, 3-tier sizing guide, ops runbook), VN data residency (Viettel/VNPT/FPT IDC mapping, Postgres RLS, per-tenant encryption).
 - **Phase 11 — Trust & Reference**: ALL 6 tasks **in_progress** — 2 reference engagement one-pagers (94% + 99.7% improvement), AI Doctrine three lenses (governance/velocity/accuracy), per-BU architecture + data-flow diagrams, compliance dossier index (9 documents), transparency log (5 incidents, 0 production), squad bios (6-person team, multilingual EN/VI/KO).
+- **Phase 12 — Pitch & Rehearsal**: ALL 5 tasks **in_progress** — 3 BU-specific 10-slide pitch decks (15-min format, full SVFC script + Bank/Securities adaptations), 3 demo run-of-show plans (minute-by-minute timing, 4 failure plans), SS1 live-coding kit (3 clipboard prompt sets, timing guide, recording checklist), FAQ doc (12 anticipated questions + 4 curveball strategies), rehearsal plan (3 rehearsals, 7 stress scenarios, final calibration).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
