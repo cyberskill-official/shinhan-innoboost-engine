@@ -80,11 +80,11 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P04-T01 | Author gold-set Q&A (90 questions across 3 BUs) | internal_tooling | minimal | eng-data+sme | P03-T01..3 | ◯ draft | partial |
-| P04-T02 | Author adversarial test set (310+ items) | internal_tooling | limited | eng-sec | P02-T06 | ◯ draft | partial |
-| P04-T03 | Implement evaluation metrics framework | internal_tooling | minimal | eng | P02-T05 | ◯ draft | yes |
-| P04-T04 | Build harness CLI and CI integration with regression alarms | internal_tooling | not_ai | eng | P04-T03 | ◯ draft | yes |
-| P04-T05 | Build reviewer-feedback → gold-set candidacy loop | internal_tooling | minimal | eng | P04-T01, P06-T02 | ◯ draft | partial |
+| P04-T01 | Author gold-set Q&A (90 questions across 3 BUs) | internal_tooling | minimal | eng-data+sme | P03-T01..3 | ◐ in_progress | partial |
+| P04-T02 | Author adversarial test set (310+ items) | internal_tooling | limited | eng-sec | P02-T06 | ◐ in_progress | partial |
+| P04-T03 | Implement evaluation metrics framework | internal_tooling | minimal | eng | P02-T05 | ◐ in_progress | yes |
+| P04-T04 | Build harness CLI and CI integration with regression alarms | internal_tooling | not_ai | eng | P04-T03 | ◐ in_progress | yes |
+| P04-T05 | Build reviewer-feedback → gold-set candidacy loop | internal_tooling | minimal | eng | P04-T01, P06-T02 | ◐ in_progress | partial |
 
 ## Phase 5 — UI Shells per BU
 
@@ -253,6 +253,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 1 — Foundation**: ALL 10 tasks **in_progress** — CI/CD workflows (5/5), Terraform IaC, Helm charts, auth/RBAC modules, encryption, backup/DR runbooks, and zero-trust network config produced.
 - **Phase 2 — Core Engine**: ALL 9 tasks **in_progress** — metric registry, NL→SQL pipeline, policy engine, citation engine, confidence scoring, prompt guard, consent ledger, two-tier cache, and audit log modules implemented.
 - **Phase 3 — Synthetic Datasets**: ALL 4 tasks **in_progress** — Faker-VN, loader tooling, and 3 BU generators (SVFC 8 tables, Bank HO 7 tables, Securities 8 tables) with data cards produced.
+- **Phase 4 — Eval Harness**: ALL 5 tasks **in_progress** — 90 gold-set Q&A (30/BU), adversarial corpus (30+ seed), metrics framework, `cyber-eval` CLI, and reviewer-feedback loop implemented.
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks

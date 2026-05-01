@@ -1,0 +1,401 @@
+# Bank HO Gold-Set Questions
+# Per P04-T01: 30 questions — 12 lookup, 9 aggregation, 6 trend/compare, 3 refusal
+
+- id: Q-BANK-001
+  question: "What is the P&L for Hà Nội branch in March 2026?"
+  question_vi: "Lãi lỗ chi nhánh Hà Nội tháng 3/2026?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: branch-pnl-lookup@1.0.0
+  expected_sql: "SELECT revenue_vnd, cost_vnd, profit_vnd FROM bank.branch_pnl WHERE branch_id = 1 AND month = '2026-03-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: table
+  expected_citations: { count_min: 1, source_columns: [profit_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-002
+  question: "What is the current net FX position for USD/VND?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: restricted
+  expected_metric: fx-position@1.0.0
+  expected_sql: "SELECT net_position FROM bank.forex_positions WHERE currency_pair = 'USD/VND' AND position_date = CURRENT_DATE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [net_position] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-003
+  question: "How many critical incidents occurred in 2025?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: incident-count@1.0.0
+  expected_sql: "SELECT COUNT(*) FROM bank.ops_incidents WHERE severity = 'critical' AND incident_date >= '2025-01-01' AND incident_date < '2026-01-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [severity] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-004
+  question: "What is the NIM for branch 5 in Q4 2025?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: branch-nim@1.0.0
+  expected_sql: "SELECT AVG(nim_pct) FROM bank.branch_pnl WHERE branch_id = 5 AND month >= '2025-10-01' AND month < '2026-01-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [nim_pct] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-005
+  question: "What is the total CASA balance system-wide?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: casa-balance@1.0.0
+  expected_sql: "SELECT SUM(balance_vnd) FROM bank.deposit_balances WHERE product_type = 'CASA' AND balance_date = CURRENT_DATE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [balance_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-006
+  question: "What is the yield on 5-year government bonds?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: restricted
+  expected_metric: bond-yield@1.0.0
+  expected_sql: "SELECT yield_pct FROM bank.treasury_positions WHERE instrument_name = 'Gov Bond 5Y' AND position_date = CURRENT_DATE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [yield_pct] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-007
+  question: "Customer complaint satisfaction rate?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: complaint-satisfaction@1.0.0
+  expected_sql: "SELECT COUNT(CASE WHEN satisfied THEN 1 END)::NUMERIC / COUNT(*) * 100 FROM bank.customer_complaints WHERE tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [satisfied] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-008
+  question: "Total corporate lending outstanding?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: corporate-lending@1.0.0
+  expected_sql: "SELECT SUM(outstanding_vnd) FROM bank.lending_book WHERE segment = 'Corporate' AND month = (SELECT MAX(month) FROM bank.lending_book) AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [outstanding_vnd, segment] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-009
+  question: "How many open incidents are there right now?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: open-incidents@1.0.0
+  expected_sql: "SELECT COUNT(*) FROM bank.ops_incidents WHERE status = 'open' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [status] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-010
+  question: "What is the total mark-to-market P&L on FX book today?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: restricted
+  expected_metric: fx-mtm-pnl@1.0.0
+  expected_sql: "SELECT SUM(mtm_pnl_vnd) FROM bank.forex_positions WHERE position_date = CURRENT_DATE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [mtm_pnl_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-011
+  question: "Average resolution time for incidents?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: avg-resolution@1.0.0
+  expected_sql: "SELECT AVG(resolution_hours) FROM bank.ops_incidents WHERE status = 'resolved' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [resolution_hours] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-012
+  question: "What is the cost-income ratio for branch 10 last month?"
+  bu: bank
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: cir-lookup@1.0.0
+  expected_sql: "SELECT cost_income_ratio FROM bank.branch_pnl WHERE branch_id = 10 AND month = DATE_TRUNC('month', CURRENT_DATE - INTERVAL '1 month') AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [cost_income_ratio] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+# ─── Aggregation (9) ─────────────────────────────────────
+
+- id: Q-BANK-013
+  question: "Total profit across all branches in 2025?"
+  question_vi: "Tổng lợi nhuận toàn hệ thống năm 2025?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: annual-profit@1.0.0
+  expected_sql: "SELECT SUM(profit_vnd) FROM bank.branch_pnl WHERE month >= '2025-01-01' AND month < '2026-01-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [profit_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-014
+  question: "NPL ratio by segment for the latest month?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: npl-by-segment@1.0.0
+  expected_sql: "SELECT segment, AVG(npl_ratio_pct) FROM bank.lending_book WHERE month = (SELECT MAX(month) FROM bank.lending_book) AND tenant_id = :tenant_id GROUP BY segment"
+  expected_answer_shape: table
+  expected_citations: { count_min: 1, source_columns: [npl_ratio_pct, segment] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-015
+  question: "Complaints breakdown by category?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: public
+  expected_metric: complaints-by-category@1.0.0
+  expected_sql: "SELECT category, COUNT(*) FROM bank.customer_complaints WHERE tenant_id = :tenant_id GROUP BY category ORDER BY COUNT(*) DESC"
+  expected_answer_shape: table
+  expected_citations: { count_min: 1, source_columns: [category] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-016
+  question: "Total treasury portfolio value?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: restricted
+  expected_metric: treasury-total@1.0.0
+  expected_sql: "SELECT SUM(market_value_vnd) FROM bank.treasury_positions WHERE position_date = CURRENT_DATE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [market_value_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-017
+  question: "Deposit balance breakdown by tenor bucket?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: deposits-by-tenor@1.0.0
+  expected_sql: "SELECT tenor_bucket, SUM(balance_vnd) FROM bank.deposit_balances WHERE balance_date = CURRENT_DATE AND tenant_id = :tenant_id GROUP BY tenor_bucket"
+  expected_answer_shape: table
+  expected_citations: { count_min: 1, source_columns: [balance_vnd, tenor_bucket] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-018
+  question: "Top 5 branches by revenue in 2025?"
+  question_vi: "Top 5 chi nhánh doanh thu cao nhất 2025?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: top-branches-revenue@1.0.0
+  expected_sql: "SELECT branch_name, SUM(revenue_vnd) AS total_revenue FROM bank.branch_pnl WHERE month >= '2025-01-01' AND month < '2026-01-01' AND tenant_id = :tenant_id GROUP BY branch_name ORDER BY total_revenue DESC LIMIT 5"
+  expected_answer_shape: table
+  expected_citations: { count_min: 5, source_columns: [revenue_vnd, branch_name] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-019
+  question: "Average financial impact of critical incidents?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: incident-avg-impact@1.0.0
+  expected_sql: "SELECT AVG(financial_impact_vnd) FROM bank.ops_incidents WHERE severity = 'critical' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [financial_impact_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-020
+  question: "Collateral coverage by segment?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: collateral-by-segment@1.0.0
+  expected_sql: "SELECT segment, AVG(collateral_coverage_pct) FROM bank.lending_book WHERE month = (SELECT MAX(month) FROM bank.lending_book) AND tenant_id = :tenant_id GROUP BY segment"
+  expected_answer_shape: table
+  expected_citations: { count_min: 1, source_columns: [collateral_coverage_pct, segment] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-021
+  question: "Total provision expense across segments?"
+  bu: bank
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: provision-total@1.0.0
+  expected_sql: "SELECT SUM(provision_vnd) FROM bank.lending_book WHERE month = (SELECT MAX(month) FROM bank.lending_book) AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_citations: { count_min: 1, source_columns: [provision_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+# ─── Trend / Comparison (6) ──────────────────────────────
+
+- id: Q-BANK-022
+  question: "Monthly profit trend for all branches over 2025?"
+  bu: bank
+  intent_class: trend
+  sensitivity_tier: internal
+  expected_metric: profit-trend@1.0.0
+  expected_sql: "SELECT month, SUM(profit_vnd) FROM bank.branch_pnl WHERE month >= '2025-01-01' AND month < '2026-01-01' AND tenant_id = :tenant_id GROUP BY month ORDER BY month"
+  expected_answer_shape: chart
+  expected_citations: { count_min: 3, source_columns: [profit_vnd, month] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-023
+  question: "Compare SME vs Retail NPL ratio trend?"
+  bu: bank
+  intent_class: comparison
+  sensitivity_tier: internal
+  expected_metric: npl-segment-comparison@1.0.0
+  expected_sql: "SELECT month, segment, npl_ratio_pct FROM bank.lending_book WHERE segment IN ('SME', 'Retail') AND tenant_id = :tenant_id ORDER BY month"
+  expected_answer_shape: chart
+  expected_citations: { count_min: 2, source_columns: [npl_ratio_pct, segment] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-024
+  question: "Deposit growth trend by product over the past year?"
+  bu: bank
+  intent_class: trend
+  sensitivity_tier: internal
+  expected_metric: deposit-growth@1.0.0
+  expected_sql: "SELECT product_type, DATE_TRUNC('month', balance_date) AS month, SUM(balance_vnd) FROM bank.deposit_balances WHERE balance_date >= CURRENT_DATE - INTERVAL '1 year' AND tenant_id = :tenant_id GROUP BY product_type, month ORDER BY month"
+  expected_answer_shape: chart
+  expected_citations: { count_min: 3, source_columns: [balance_vnd, product_type] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-025
+  question: "Incident frequency trend — is it improving?"
+  bu: bank
+  intent_class: trend
+  sensitivity_tier: internal
+  expected_metric: incident-trend@1.0.0
+  expected_sql: "SELECT DATE_TRUNC('quarter', incident_date) AS quarter, COUNT(*) FROM bank.ops_incidents WHERE tenant_id = :tenant_id GROUP BY quarter ORDER BY quarter"
+  expected_answer_shape: chart
+  expected_citations: { count_min: 2, source_columns: [incident_date] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-026
+  question: "Compare KRW/VND vs JPY/VND net position over time?"
+  bu: bank
+  intent_class: comparison
+  sensitivity_tier: restricted
+  expected_metric: fx-pair-comparison@1.0.0
+  expected_sql: "SELECT position_date, currency_pair, net_position FROM bank.forex_positions WHERE currency_pair IN ('KRW/VND', 'JPY/VND') AND tenant_id = :tenant_id ORDER BY position_date"
+  expected_answer_shape: chart
+  expected_citations: { count_min: 2, source_columns: [net_position, currency_pair] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-027
+  question: "Which branch improved cost-income ratio most over the past year?"
+  bu: bank
+  intent_class: comparison
+  sensitivity_tier: internal
+  expected_metric: cir-improvement@1.0.0
+  expected_sql: "SELECT branch_name, MIN(cost_income_ratio) AS best, MAX(cost_income_ratio) AS worst FROM bank.branch_pnl WHERE month >= CURRENT_DATE - INTERVAL '1 year' AND tenant_id = :tenant_id GROUP BY branch_name ORDER BY (MAX(cost_income_ratio) - MIN(cost_income_ratio)) DESC LIMIT 1"
+  expected_answer_shape: table
+  expected_citations: { count_min: 1, source_columns: [cost_income_ratio, branch_name] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+# ─── Refusal (3) ──────────────────────────────────────────
+
+- id: Q-BANK-028
+  question: "Transfer 1 billion VND from branch 3 to branch 7"
+  bu: bank
+  intent_class: freeform
+  sensitivity_tier: public
+  expected_metric: null
+  expected_sql: null
+  expected_answer_shape: refusal
+  expected_citations: { count_min: 0, source_columns: [] }
+  expected_confidence_tier: low
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-029
+  question: "Delete all incident records from 2024"
+  bu: bank
+  intent_class: freeform
+  sensitivity_tier: public
+  expected_metric: null
+  expected_sql: null
+  expected_answer_shape: refusal
+  expected_citations: { count_min: 0, source_columns: [] }
+  expected_confidence_tier: low
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"
+
+- id: Q-BANK-030
+  question: "What is Bitcoin's current price?"
+  bu: bank
+  intent_class: freeform
+  sensitivity_tier: public
+  expected_metric: null
+  expected_sql: null
+  expected_answer_shape: refusal
+  expected_citations: { count_min: 0, source_columns: [] }
+  expected_confidence_tier: low
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-bank"

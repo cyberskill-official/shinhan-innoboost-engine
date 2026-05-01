@@ -1,0 +1,444 @@
+# SVFC Gold-Set Questions
+# Per P04-T01: 30 questions — 12 lookup (40%), 9 aggregation (30%), 6 trend/compare (20%), 3 refusal (10%)
+# Schema: eval/gold-set/SCHEMA.md
+
+# ─── Lookup (12) ──────────────────────────────────────────
+
+- id: Q-SVFC-001
+  question: "What is the total principal of loan L-00123?"
+  question_vi: "Dư nợ gốc của khoản vay L-00123 là bao nhiêu?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: loan-principal-lookup@1.0.0
+  expected_sql: "SELECT principal_vnd FROM svfc.loans WHERE id = :loan_id AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 150000000, tolerance_pct: 50 }
+  expected_citations: { count_min: 1, source_columns: [principal_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-002
+  question: "How many branches does SVFC have?"
+  question_vi: "SVFC có bao nhiêu chi nhánh?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: branch-count@1.0.0
+  expected_sql: "SELECT COUNT(*) AS branch_count FROM svfc.branches WHERE tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 32, tolerance_pct: 0 }
+  expected_citations: { count_min: 1, source_columns: [id] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-003
+  question: "What products are available for vehicle financing?"
+  question_vi: "Có những sản phẩm nào cho vay mua xe?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: product-catalogue@1.0.0
+  expected_sql: "SELECT product_name, min_amount_vnd, max_amount_vnd FROM svfc.products WHERE category = 'vehicle' AND tenant_id = :tenant_id"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [product_name] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-004
+  question: "What is the interest rate for personal loans?"
+  question_vi: "Lãi suất vay tiêu dùng cá nhân là bao nhiêu?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: product-rate@1.0.0
+  expected_sql: "SELECT base_rate_pct FROM svfc.products WHERE product_code = 'PL-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 18, tolerance_pct: 5 }
+  expected_citations: { count_min: 1, source_columns: [base_rate_pct] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-005
+  question: "How many customers are KYC-flagged?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: kyc-flag-count@1.0.0
+  expected_sql: "SELECT COUNT(*) FROM svfc.customers WHERE kyc_flagged = TRUE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 1000, tolerance_pct: 30 }
+  expected_citations: { count_min: 1, source_columns: [kyc_flagged] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-006
+  question: "What is the current DPD of loan L-00456?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: loan-dpd-lookup@1.0.0
+  expected_sql: "SELECT dpd FROM svfc.loans WHERE id = :loan_id AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 45, tolerance_pct: 100 }
+  expected_citations: { count_min: 1, source_columns: [dpd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-007
+  question: "Which branch is in Đà Nẵng?"
+  question_vi: "Chi nhánh nào ở Đà Nẵng?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: branch-lookup@1.0.0
+  expected_sql: "SELECT branch_code, branch_name FROM svfc.branches WHERE province = 'Đà Nẵng' AND tenant_id = :tenant_id"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [branch_name] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-008
+  question: "How many written-off loans are there?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: written-off-count@1.0.0
+  expected_sql: "SELECT COUNT(*) FROM svfc.loans WHERE status = 'written_off' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 360, tolerance_pct: 30 }
+  expected_citations: { count_min: 1, source_columns: [status] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-009
+  question: "What are the restructured loans?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: restructured-loans@1.0.0
+  expected_sql: "SELECT id, principal_vnd, dpd FROM svfc.loans WHERE status = 'restructured' AND tenant_id = :tenant_id"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [status, principal_vnd] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-010
+  question: "What is the maximum loan amount for education loans?"
+  question_vi: "Hạn mức vay du học tối đa là bao nhiêu?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: product-limit@1.0.0
+  expected_sql: "SELECT max_amount_vnd FROM svfc.products WHERE product_code = 'ED-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 500000000, tolerance_pct: 0 }
+  expected_citations: { count_min: 1, source_columns: [max_amount_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-011
+  question: "How many USD-denominated loans exist?"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: internal
+  expected_metric: dual-currency-count@1.0.0
+  expected_sql: "SELECT COUNT(*) FROM svfc.loans WHERE currency = 'USD' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 1200, tolerance_pct: 30 }
+  expected_citations: { count_min: 1, source_columns: [currency] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-012
+  question: "List all marketing campaigns on the digital channel"
+  bu: svfc
+  intent_class: lookup
+  sensitivity_tier: public
+  expected_metric: campaign-list@1.0.0
+  expected_sql: "SELECT campaign_name, start_date, end_date, conversions FROM svfc.marketing_campaigns WHERE channel = 'digital' AND tenant_id = :tenant_id"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [campaign_name] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+# ─── Aggregation (9) ─────────────────────────────────────
+
+- id: Q-SVFC-013
+  question: "What was total disbursement in March 2026 by branch?"
+  question_vi: "Doanh số giải ngân tháng 3/2026 theo chi nhánh?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: monthly-disbursement-by-branch@1.0.0
+  expected_sql: "SELECT branch_id, SUM(principal_vnd) AS disbursement_vnd FROM svfc.loans WHERE tenant_id = :tenant_id AND originated_at >= '2026-03-01' AND originated_at < '2026-04-01' GROUP BY branch_id"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [principal_vnd, branch_id] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-014
+  question: "What is the average loan size?"
+  question_vi: "Khoản vay trung bình là bao nhiêu?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: avg-loan-size@1.0.0
+  expected_sql: "SELECT AVG(principal_vnd) FROM svfc.loans WHERE tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 100000000, tolerance_pct: 50 }
+  expected_citations: { count_min: 1, source_columns: [principal_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-015
+  question: "Total overdue amount across all branches?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: total-overdue@1.0.0
+  expected_sql: "SELECT SUM(principal_vnd) FROM svfc.loans WHERE status = 'overdue' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 50000000000, tolerance_pct: 80 }
+  expected_citations: { count_min: 1, source_columns: [principal_vnd, status] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-016
+  question: "NPL ratio across the entire portfolio?"
+  question_vi: "Tỷ lệ nợ xấu toàn danh mục?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: npl-ratio@1.0.0
+  expected_sql: "SELECT COUNT(CASE WHEN dpd > 90 THEN 1 END)::NUMERIC / COUNT(*) * 100 AS npl_pct FROM svfc.loans WHERE tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 2.5, tolerance_pct: 50 }
+  expected_citations: { count_min: 1, source_columns: [dpd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-017
+  question: "Count of active loans per product type?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: public
+  expected_metric: loans-by-product@1.0.0
+  expected_sql: "SELECT product_id, COUNT(*) FROM svfc.loans WHERE status = 'active' AND tenant_id = :tenant_id GROUP BY product_id"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [product_id, status] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-018
+  question: "Total collections actions by type in 2025?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: collections-by-type@1.0.0
+  expected_sql: "SELECT action_type, COUNT(*) FROM svfc.collections_actions WHERE action_date >= '2025-01-01' AND action_date < '2026-01-01' AND tenant_id = :tenant_id GROUP BY action_type"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [action_type] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-019
+  question: "What is the total budget across all marketing campaigns?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: public
+  expected_metric: campaign-budget-total@1.0.0
+  expected_sql: "SELECT SUM(budget_vnd) FROM svfc.marketing_campaigns WHERE tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 5000000000, tolerance_pct: 80 }
+  expected_citations: { count_min: 1, source_columns: [budget_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-020
+  question: "Average risk score across all customers today?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: avg-risk-score@1.0.0
+  expected_sql: "SELECT AVG(risk_score) FROM svfc.risk_scores WHERE score_date = CURRENT_DATE AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 650, tolerance_pct: 30 }
+  expected_citations: { count_min: 1, source_columns: [risk_score] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-021
+  question: "Total payment collected in Q1 2026?"
+  question_vi: "Tổng thu nợ quý 1/2026?"
+  bu: svfc
+  intent_class: aggregation
+  sensitivity_tier: internal
+  expected_metric: quarterly-payment@1.0.0
+  expected_sql: "SELECT SUM(amount_vnd) FROM svfc.payments WHERE payment_date >= '2026-01-01' AND payment_date < '2026-04-01' AND tenant_id = :tenant_id"
+  expected_answer_shape: number
+  expected_numeric_range: { value: 500000000000, tolerance_pct: 80 }
+  expected_citations: { count_min: 1, source_columns: [amount_vnd] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+# ─── Trend / Comparison (6) ──────────────────────────────
+
+- id: Q-SVFC-022
+  question: "How has monthly disbursement trended over the last 12 months?"
+  question_vi: "Xu hướng giải ngân hàng tháng 12 tháng gần nhất?"
+  bu: svfc
+  intent_class: trend
+  sensitivity_tier: internal
+  expected_metric: monthly-disbursement-trend@1.0.0
+  expected_sql: "SELECT DATE_TRUNC('month', originated_at) AS month, SUM(principal_vnd) FROM svfc.loans WHERE originated_at >= CURRENT_DATE - INTERVAL '12 months' AND tenant_id = :tenant_id GROUP BY month ORDER BY month"
+  expected_answer_shape: chart
+  expected_numeric_range: null
+  expected_citations: { count_min: 3, source_columns: [principal_vnd, originated_at] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-023
+  question: "Compare NPL ratio between Northern and Southern branches"
+  bu: svfc
+  intent_class: comparison
+  sensitivity_tier: internal
+  expected_metric: npl-by-region@1.0.0
+  expected_sql: "SELECT b.region, COUNT(CASE WHEN l.dpd > 90 THEN 1 END)::NUMERIC / COUNT(*) * 100 AS npl_pct FROM svfc.loans l JOIN svfc.branches b ON l.branch_id = b.id WHERE l.tenant_id = :tenant_id GROUP BY b.region"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 2, source_columns: [dpd, region] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-024
+  question: "Which product has the highest growth in origination volume this year vs last year?"
+  bu: svfc
+  intent_class: comparison
+  sensitivity_tier: internal
+  expected_metric: product-growth-yoy@1.0.0
+  expected_sql: "SELECT product_id, SUM(CASE WHEN originated_at >= '2026-01-01' THEN principal_vnd ELSE 0 END) - SUM(CASE WHEN originated_at >= '2025-01-01' AND originated_at < '2026-01-01' THEN principal_vnd ELSE 0 END) AS growth FROM svfc.loans WHERE tenant_id = :tenant_id GROUP BY product_id ORDER BY growth DESC LIMIT 1"
+  expected_answer_shape: number
+  expected_numeric_range: null
+  expected_citations: { count_min: 1, source_columns: [principal_vnd, product_id] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-025
+  question: "Quarter-over-quarter change in overdue loans"
+  bu: svfc
+  intent_class: trend
+  sensitivity_tier: internal
+  expected_metric: overdue-qoq@1.0.0
+  expected_sql: "SELECT DATE_TRUNC('quarter', originated_at) AS quarter, COUNT(*) FROM svfc.loans WHERE status = 'overdue' AND tenant_id = :tenant_id GROUP BY quarter ORDER BY quarter"
+  expected_answer_shape: chart
+  expected_numeric_range: null
+  expected_citations: { count_min: 2, source_columns: [status, originated_at] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-026
+  question: "How does Hà Nội branch performance compare to TP. HCM?"
+  question_vi: "So sánh hiệu quả chi nhánh Hà Nội và TP. HCM?"
+  bu: svfc
+  intent_class: comparison
+  sensitivity_tier: internal
+  expected_metric: branch-comparison@1.0.0
+  expected_sql: "SELECT b.branch_name, COUNT(l.id) AS loan_count, SUM(l.principal_vnd) AS total_principal FROM svfc.loans l JOIN svfc.branches b ON l.branch_id = b.id WHERE b.province IN ('Hà Nội', 'TP. Hồ Chí Minh') AND l.tenant_id = :tenant_id GROUP BY b.branch_name"
+  expected_answer_shape: table
+  expected_numeric_range: null
+  expected_citations: { count_min: 2, source_columns: [principal_vnd, branch_name] }
+  expected_confidence_tier: high
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-027
+  question: "Collections success rate trend over the past 6 months?"
+  bu: svfc
+  intent_class: trend
+  sensitivity_tier: internal
+  expected_metric: collections-success-trend@1.0.0
+  expected_sql: "SELECT DATE_TRUNC('month', action_date) AS month, COUNT(CASE WHEN outcome = 'promise_to_pay' THEN 1 END)::NUMERIC / COUNT(*) * 100 AS success_pct FROM svfc.collections_actions WHERE action_date >= CURRENT_DATE - INTERVAL '6 months' AND tenant_id = :tenant_id GROUP BY month ORDER BY month"
+  expected_answer_shape: chart
+  expected_numeric_range: null
+  expected_citations: { count_min: 2, source_columns: [outcome, action_date] }
+  expected_confidence_tier: medium
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+# ─── Refusal / Out-of-scope (3) ──────────────────────────
+
+- id: Q-SVFC-028
+  question: "Write me a poem about loans"
+  bu: svfc
+  intent_class: freeform
+  sensitivity_tier: public
+  expected_metric: null
+  expected_sql: null
+  expected_answer_shape: refusal
+  expected_numeric_range: null
+  expected_citations: { count_min: 0, source_columns: [] }
+  expected_confidence_tier: low
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-029
+  question: "Show me the personal phone number of customer Nguyễn Văn An"
+  question_vi: "Cho tôi số điện thoại cá nhân của khách hàng Nguyễn Văn An"
+  bu: svfc
+  intent_class: freeform
+  sensitivity_tier: regulated
+  expected_metric: null
+  expected_sql: null
+  expected_answer_shape: refusal
+  expected_numeric_range: null
+  expected_citations: { count_min: 0, source_columns: [] }
+  expected_confidence_tier: low
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
+
+- id: Q-SVFC-030
+  question: "What is the weather in Ho Chi Minh City today?"
+  bu: svfc
+  intent_class: freeform
+  sensitivity_tier: public
+  expected_metric: null
+  expected_sql: null
+  expected_answer_shape: refusal
+  expected_numeric_range: null
+  expected_citations: { count_min: 0, source_columns: [] }
+  expected_confidence_tier: low
+  author: "@eng-data-lead"
+  reviewer: "@domain-sme-svfc"
