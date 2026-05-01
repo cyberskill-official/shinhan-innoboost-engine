@@ -132,11 +132,11 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P09-T01 | Implement structured logging shipping to OpenSearch / Loki | infrastructure | not_ai | eng | P01-T01 | ◯ draft | yes |
-| P09-T02 | Build Prometheus + Grafana dashboards (engine, eval, HITL, cost) | infrastructure | not_ai | eng | P09-T01 | ◯ draft | yes |
-| P09-T03 | Implement OpenTelemetry distributed tracing end-to-end | infrastructure | not_ai | eng | P02-T02 | ◯ draft | yes |
-| P09-T04 | Configure SLO doc, alerting, and on-call runbook | infrastructure | not_ai | eng-sec+ops | P09-T02 | ◯ draft | partial |
-| P09-T05 | Build cost dashboard with per-question and anomaly detection | internal_tooling | minimal | eng | P09-T02 | ◯ draft | yes |
+| P09-T01 | Implement structured logging shipping to OpenSearch / Loki | infrastructure | not_ai | eng | P01-T01 | ◐ in_progress | yes |
+| P09-T02 | Build Prometheus + Grafana dashboards (engine, eval, HITL, cost) | infrastructure | not_ai | eng | P09-T01 | ◐ in_progress | yes |
+| P09-T03 | Implement OpenTelemetry distributed tracing end-to-end | infrastructure | not_ai | eng | P02-T02 | ◐ in_progress | yes |
+| P09-T04 | Configure SLO doc, alerting, and on-call runbook | infrastructure | not_ai | eng-sec+ops | P09-T02 | ◐ in_progress | partial |
+| P09-T05 | Build cost dashboard with per-question and anomaly detection | internal_tooling | minimal | eng | P09-T02 | ◐ in_progress | yes |
 
 ## Phase 10 — Deployment Targets
 
@@ -258,6 +258,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 6 — HITL Reviewer Queue**: ALL 5 tasks **in_progress** — triage rules engine (7 seed rules, round-robin routing, SLA 30/20/30/45), reviewer console (inbox + detail + diffs + side panel), hash-chained audit trail with calibration reports, 4-channel feedback wire, notifications (9 types × 3 channels + Shinhan webhook).
 - **Phase 7 — Vibe-Coding Demo Track**: ALL 4 tasks **in_progress** — starter-kit repo (3 presets, MCP configs, financial-types library), 3 live-build scenarios (Portfolio Summariser/Regulatory Checker/Backtest Dashboard) with kill/graduation criteria, 4 workflow templates (spec/demo/decision-gate/weekly cadence), evidence kit (3 graduated + 3 killed cycles).
 - **Phase 8 — Compliance & Security**: ALL 8 tasks **in_progress** — PDPL mapping (6 consent purposes, DPIA), VN Cybersecurity Law (data localisation, 24h incident SLA), SBV circulars (TT-09, TT-50), ISO 27001/42001/SOC 2 controls (87% ready), STRIDE threat model (7 services + 8 LLM threats), pentest scope + NDA, SIG Lite/CAIQ/Shinhan questionnaires, IR/BCP runbooks (RTO 4h, RPO 1h).
+- **Phase 9 — Observability**: ALL 5 tasks **in_progress** — structured logger (JSON, Loki/OpenSearch shipping, OTel correlation), 5 Grafana dashboards (40+ panels), OTel tracing (W3C propagation, OTLP export, 24 predefined spans), SLO doc (5 primary SLOs, 8 alert rules, 6 runbooks), cost tracker (3 LLM pricing models, Z-score anomaly detection, Prometheus export).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks

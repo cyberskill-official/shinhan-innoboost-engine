@@ -1,0 +1,353 @@
+// observability/dashboards/grafana-dashboards.json
+// P09-T02 — Prometheus + Grafana Dashboard Definitions
+// Five dashboards: Engine Health, Eval Scores, HITL Queue, Cost, Security
+
+{
+  "dashboards": [
+    {
+      "id": "engine-health",
+      "title": "🔧 Engine Health",
+      "description": "NL→SQL pipeline performance, availability, error rates",
+      "refresh": "10s",
+      "datasource": "Prometheus",
+      "panels": [
+        {
+          "title": "Request Rate (req/s)",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 0, "w": 8, "h": 6 },
+          "query": "rate(engine_requests_total[5m])",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 50, "color": "yellow" },
+            { "value": 100, "color": "red" }
+          ]
+        },
+        {
+          "title": "P95 Latency (ms)",
+          "type": "gauge",
+          "gridPos": { "x": 8, "y": 0, "w": 4, "h": 6 },
+          "query": "histogram_quantile(0.95, rate(engine_request_duration_seconds_bucket[5m])) * 1000",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 3000, "color": "yellow" },
+            { "value": 5000, "color": "red" }
+          ],
+          "sloTarget": 5000
+        },
+        {
+          "title": "P50 Latency (ms)",
+          "type": "gauge",
+          "gridPos": { "x": 12, "y": 0, "w": 4, "h": 6 },
+          "query": "histogram_quantile(0.50, rate(engine_request_duration_seconds_bucket[5m])) * 1000"
+        },
+        {
+          "title": "Error Rate (%)",
+          "type": "stat",
+          "gridPos": { "x": 16, "y": 0, "w": 4, "h": 6 },
+          "query": "rate(engine_errors_total[5m]) / rate(engine_requests_total[5m]) * 100",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 1, "color": "yellow" },
+            { "value": 5, "color": "red" }
+          ]
+        },
+        {
+          "title": "Availability (30d rolling)",
+          "type": "stat",
+          "gridPos": { "x": 20, "y": 0, "w": 4, "h": 6 },
+          "query": "1 - (sum(increase(engine_errors_total[30d])) / sum(increase(engine_requests_total[30d])))",
+          "unit": "percentunit",
+          "sloTarget": 0.995
+        },
+        {
+          "title": "SQL Generation Success Rate",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+          "query": "rate(nl2sql_success_total[5m]) / rate(nl2sql_attempts_total[5m]) * 100"
+        },
+        {
+          "title": "Confidence Distribution",
+          "type": "histogram",
+          "gridPos": { "x": 12, "y": 6, "w": 12, "h": 6 },
+          "query": "engine_confidence_score_bucket"
+        },
+        {
+          "title": "Cache Hit Rate",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 12, "w": 12, "h": 6 },
+          "query": "rate(cache_hits_total[5m]) / (rate(cache_hits_total[5m]) + rate(cache_misses_total[5m])) * 100"
+        },
+        {
+          "title": "Active Connections (per BU)",
+          "type": "timeseries",
+          "gridPos": { "x": 12, "y": 12, "w": 12, "h": 6 },
+          "query": "engine_active_connections{bu=~\"$bu\"}"
+        }
+      ]
+    },
+
+    {
+      "id": "eval-scores",
+      "title": "📊 Eval Scores",
+      "description": "Gold-set accuracy, regression tracking, per-BU breakdowns",
+      "refresh": "1m",
+      "datasource": "Prometheus",
+      "panels": [
+        {
+          "title": "Overall Accuracy (Latest Run)",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 0, "w": 6, "h": 6 },
+          "query": "eval_accuracy_overall",
+          "unit": "percentunit",
+          "sloTarget": 0.95,
+          "thresholds": [
+            { "value": 0, "color": "red" },
+            { "value": 0.90, "color": "yellow" },
+            { "value": 0.95, "color": "green" }
+          ]
+        },
+        {
+          "title": "Accuracy by BU",
+          "type": "bargauge",
+          "gridPos": { "x": 6, "y": 0, "w": 6, "h": 6 },
+          "query": "eval_accuracy_by_bu"
+        },
+        {
+          "title": "Accuracy Trend (30d)",
+          "type": "timeseries",
+          "gridPos": { "x": 12, "y": 0, "w": 12, "h": 6 },
+          "query": "eval_accuracy_overall",
+          "annotations": [
+            { "query": "eval_deployment_events", "label": "Deployment" }
+          ]
+        },
+        {
+          "title": "Regression Alert",
+          "type": "alertlist",
+          "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+          "query": "eval_regression_alert"
+        },
+        {
+          "title": "Citation Accuracy",
+          "type": "stat",
+          "gridPos": { "x": 12, "y": 6, "w": 6, "h": 6 },
+          "query": "eval_citation_accuracy"
+        },
+        {
+          "title": "SQL Execution Accuracy",
+          "type": "stat",
+          "gridPos": { "x": 18, "y": 6, "w": 6, "h": 6 },
+          "query": "eval_sql_execution_accuracy"
+        }
+      ]
+    },
+
+    {
+      "id": "hitl-queue",
+      "title": "👥 HITL Reviewer Queue",
+      "description": "Queue depth, SLA adherence, reviewer performance",
+      "refresh": "10s",
+      "datasource": "Prometheus",
+      "panels": [
+        {
+          "title": "Queue Depth",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 0, "w": 4, "h": 6 },
+          "query": "hitl_queue_depth",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 10, "color": "yellow" },
+            { "value": 25, "color": "red" }
+          ]
+        },
+        {
+          "title": "SLA Adherence (%)",
+          "type": "gauge",
+          "gridPos": { "x": 4, "y": 0, "w": 4, "h": 6 },
+          "query": "hitl_sla_met_total / hitl_reviews_total * 100",
+          "sloTarget": 95,
+          "thresholds": [
+            { "value": 0, "color": "red" },
+            { "value": 90, "color": "yellow" },
+            { "value": 95, "color": "green" }
+          ]
+        },
+        {
+          "title": "Avg Review Time (min)",
+          "type": "stat",
+          "gridPos": { "x": 8, "y": 0, "w": 4, "h": 6 },
+          "query": "hitl_review_duration_seconds_avg / 60"
+        },
+        {
+          "title": "Reviews by Action",
+          "type": "piechart",
+          "gridPos": { "x": 12, "y": 0, "w": 6, "h": 6 },
+          "query": "hitl_reviews_by_action"
+        },
+        {
+          "title": "SLA Breaches (24h)",
+          "type": "stat",
+          "gridPos": { "x": 18, "y": 0, "w": 6, "h": 6 },
+          "query": "increase(hitl_sla_breach_total[24h])",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 1, "color": "red" }
+          ]
+        },
+        {
+          "title": "Queue Depth Over Time",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+          "query": "hitl_queue_depth"
+        },
+        {
+          "title": "Reviewer Performance",
+          "type": "table",
+          "gridPos": { "x": 12, "y": 6, "w": 12, "h": 6 },
+          "query": "hitl_reviewer_stats",
+          "columns": ["reviewer", "reviews_count", "avg_time_min", "approval_rate", "escalation_rate"]
+        },
+        {
+          "title": "Triage Rule Hit Distribution",
+          "type": "bargauge",
+          "gridPos": { "x": 0, "y": 12, "w": 24, "h": 6 },
+          "query": "hitl_triage_rule_hits_total"
+        }
+      ]
+    },
+
+    {
+      "id": "cost-dashboard",
+      "title": "💰 Cost Dashboard",
+      "description": "Per-question, per-BU, per-tenant cost tracking with anomaly detection",
+      "refresh": "1m",
+      "datasource": "Prometheus",
+      "panels": [
+        {
+          "title": "Cost per Question (avg, VND)",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 0, "w": 6, "h": 6 },
+          "query": "rate(cost_total_vnd[1h]) / rate(engine_requests_total[1h])"
+        },
+        {
+          "title": "Daily Cost (VND)",
+          "type": "timeseries",
+          "gridPos": { "x": 6, "y": 0, "w": 12, "h": 6 },
+          "query": "increase(cost_total_vnd[1d])"
+        },
+        {
+          "title": "Monthly Projection (VND)",
+          "type": "stat",
+          "gridPos": { "x": 18, "y": 0, "w": 6, "h": 6 },
+          "query": "predict_linear(cost_total_vnd[7d], 30*86400)"
+        },
+        {
+          "title": "Cost by BU",
+          "type": "piechart",
+          "gridPos": { "x": 0, "y": 6, "w": 8, "h": 6 },
+          "query": "cost_total_vnd by (bu)"
+        },
+        {
+          "title": "Cost by Component",
+          "type": "piechart",
+          "gridPos": { "x": 8, "y": 6, "w": 8, "h": 6 },
+          "query": "cost_total_vnd by (component)",
+          "components": ["llm_api", "cache", "database", "compute"]
+        },
+        {
+          "title": "Cost Anomaly Detection",
+          "type": "timeseries",
+          "gridPos": { "x": 16, "y": 6, "w": 8, "h": 6 },
+          "query": "cost_anomaly_score",
+          "description": "Z-score of hourly cost vs 7-day moving average. Alert > 3σ.",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 2, "color": "yellow" },
+            { "value": 3, "color": "red" }
+          ]
+        },
+        {
+          "title": "LLM Token Usage",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 12, "w": 12, "h": 6 },
+          "query": "rate(llm_tokens_total[5m])",
+          "series": ["prompt_tokens", "completion_tokens"]
+        },
+        {
+          "title": "Cache Savings (VND/day)",
+          "type": "stat",
+          "gridPos": { "x": 12, "y": 12, "w": 12, "h": 6 },
+          "query": "increase(cache_hits_total[1d]) * avg(cost_per_llm_call_vnd)"
+        }
+      ]
+    },
+
+    {
+      "id": "security-events",
+      "title": "🔒 Security Events",
+      "description": "Prompt injection attempts, refusal rates, anomaly detection",
+      "refresh": "10s",
+      "datasource": "Prometheus",
+      "panels": [
+        {
+          "title": "Injection Attempts (24h)",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 0, "w": 6, "h": 6 },
+          "query": "increase(prompt_injection_attempts_total[24h])",
+          "thresholds": [
+            { "value": 0, "color": "green" },
+            { "value": 5, "color": "yellow" },
+            { "value": 20, "color": "red" }
+          ]
+        },
+        {
+          "title": "Injection Attempt Rate",
+          "type": "timeseries",
+          "gridPos": { "x": 6, "y": 0, "w": 12, "h": 6 },
+          "query": "rate(prompt_injection_attempts_total[5m])"
+        },
+        {
+          "title": "Block Rate",
+          "type": "stat",
+          "gridPos": { "x": 18, "y": 0, "w": 6, "h": 6 },
+          "query": "prompt_injection_blocked_total / prompt_injection_attempts_total * 100",
+          "unit": "percent"
+        },
+        {
+          "title": "Refusal Rate Trend",
+          "type": "timeseries",
+          "gridPos": { "x": 0, "y": 6, "w": 12, "h": 6 },
+          "query": "rate(engine_refusals_total[5m]) / rate(engine_requests_total[5m]) * 100",
+          "description": "Spike in refusals may indicate attack or model degradation"
+        },
+        {
+          "title": "Confidence Tier Shifts",
+          "type": "timeseries",
+          "gridPos": { "x": 12, "y": 6, "w": 12, "h": 6 },
+          "query": "engine_confidence_tier_distribution",
+          "series": ["high", "medium", "low"],
+          "description": "Sudden shift from high to low may indicate adversarial inputs"
+        },
+        {
+          "title": "Auth Failures (24h)",
+          "type": "stat",
+          "gridPos": { "x": 0, "y": 12, "w": 6, "h": 6 },
+          "query": "increase(auth_failures_total[24h])"
+        },
+        {
+          "title": "HITL Escalations (24h)",
+          "type": "stat",
+          "gridPos": { "x": 6, "y": 12, "w": 6, "h": 6 },
+          "query": "increase(hitl_escalations_total[24h])"
+        },
+        {
+          "title": "Security Event Log",
+          "type": "logs",
+          "gridPos": { "x": 12, "y": 12, "w": 12, "h": 6 },
+          "datasource": "Loki",
+          "query": "{service=\"prompt-guard\"} |= \"blocked\""
+        }
+      ]
+    }
+  ]
+}
