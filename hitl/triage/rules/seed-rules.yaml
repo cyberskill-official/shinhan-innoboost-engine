@@ -1,0 +1,86 @@
+# Triage Routing Rules — Seed Configuration
+# Per P06-T01 §6.1: confidence + sensitivity + novelty + history
+# Format: YAML rule definitions loaded by TriageEngine at startup
+
+rules:
+  - id: R001
+    name: Low Confidence Auto-Route
+    description: "Confidence score below 65% → always route to reviewer"
+    priority: 10
+    enabled: true
+    condition: "confidenceScore < 0.65"
+    action: route_reviewer
+    sla_minutes: 30
+    priority_level: high
+
+  - id: R002
+    name: Restricted/Regulated Sensitivity Gate
+    description: "Sensitivity ≥ Restricted → mandatory reviewer approval"
+    priority: 20
+    enabled: true
+    condition: "sensitivityTier IN ('restricted', 'regulated')"
+    action: route_reviewer
+    sla_minutes: 30
+    priority_level: high
+
+  - id: R003
+    name: Novel Question Detection
+    description: "Similarity < 0.40 to any gold-set entry → route for review"
+    priority: 30
+    enabled: true
+    condition: "noveltyScore < 0.40"
+    action: route_reviewer
+    sla_minutes: 30
+    priority_level: normal
+
+  - id: R004
+    name: Historically Flagged Pattern
+    description: "Matches a pattern previously rejected by reviewers"
+    priority: 25
+    enabled: true
+    condition: "isHistoricallyFlagged = true"
+    action: route_reviewer
+    sla_minutes: 30
+    priority_level: high
+
+  - id: R005
+    name: No Citations Generated
+    description: "Answer without citations and non-high confidence → unverifiable"
+    priority: 15
+    enabled: true
+    condition: "citations.length = 0 AND confidenceTier != 'high'"
+    action: route_reviewer
+    sla_minutes: 30
+    priority_level: normal
+
+  - id: R006
+    name: Regulated + Low Confidence Escalation
+    description: "Regulated data with confidence < 50% → immediate escalation"
+    priority: 5
+    enabled: true
+    condition: "sensitivityTier = 'regulated' AND confidenceScore < 0.50"
+    action: escalate
+    sla_minutes: 15
+    priority_level: critical
+
+  - id: R007
+    name: High Confidence + Public Auto-Approve
+    description: "High confidence on public data, not flagged, not novel → auto-approve"
+    priority: 100
+    enabled: true
+    condition: "confidenceScore >= 0.85 AND sensitivityTier = 'public' AND isHistoricallyFlagged = false AND noveltyScore >= 0.40"
+    action: auto_approve
+    sla_minutes: 0
+    priority_level: normal
+
+sla:
+  target_minutes: 30
+  warning_minutes: 20
+  breach_minutes: 30
+  escalation_minutes: 45
+  max_queue_depth: 50
+
+routing:
+  strategy: round_robin
+  fallback: least_loaded
+  max_concurrent_per_reviewer: 5

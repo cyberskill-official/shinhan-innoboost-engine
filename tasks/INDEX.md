@@ -100,11 +100,11 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P06-T01 | Implement triage rules engine (confidence + sensitivity + novelty) | infrastructure | limited | eng | P02-T05, P02-T07 | ◯ draft | yes |
-| P06-T02 | Build reviewer console UI (inbox, actions, diffs, side panel) | user_facing | limited | design+eng | P06-T01 | ◯ draft | partial |
-| P06-T03 | Implement audit trail and quarterly calibration reporting | internal_tooling | minimal | eng | P02-T09, P06-T02 | ◯ draft | yes |
-| P06-T04 | Wire reviewer-feedback → engine improvement loop | internal_tooling | limited | eng | P06-T02, P04-T05 | ◯ draft | partial |
-| P06-T05 | Implement notifications (email + in-app + Shinhan webhook) | integration | not_ai | eng | P06-T01 | ◯ draft | yes |
+| P06-T01 | Implement triage rules engine (confidence + sensitivity + novelty) | infrastructure | limited | eng | P02-T05, P02-T07 | ◐ in_progress | yes |
+| P06-T02 | Build reviewer console UI (inbox, actions, diffs, side panel) | user_facing | limited | design+eng | P06-T01 | ◐ in_progress | partial |
+| P06-T03 | Implement audit trail and quarterly calibration reporting | internal_tooling | minimal | eng | P02-T09, P06-T02 | ◐ in_progress | yes |
+| P06-T04 | Wire reviewer-feedback → engine improvement loop | internal_tooling | limited | eng | P06-T02, P04-T05 | ◐ in_progress | partial |
+| P06-T05 | Implement notifications (email + in-app + Shinhan webhook) | integration | not_ai | eng | P06-T01 | ◐ in_progress | yes |
 
 ## Phase 7 — Vibe-Coding Demo Track (SS1)
 
@@ -255,6 +255,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 3 — Synthetic Datasets**: ALL 4 tasks **in_progress** — Faker-VN, loader tooling, and 3 BU generators (SVFC 8 tables, Bank HO 7 tables, Securities 8 tables) with data cards produced.
 - **Phase 4 — Eval Harness**: ALL 5 tasks **in_progress** — 90 gold-set Q&A (30/BU), adversarial corpus (30+ seed), metrics framework, `cyber-eval` CLI, and reviewer-feedback loop implemented.
 - **Phase 5 — UI Shells**: ALL 5 tasks **in_progress** — shared chat surface (10 components, WCAG 2.2 AA), SVFC slate theme, Bank navy theme (HITL prominent), Securities charcoal theme (ticker-aware), admin console (6-section), dashboards (6 templates), full EN/VI i18n.
+- **Phase 6 — HITL Reviewer Queue**: ALL 5 tasks **in_progress** — triage rules engine (7 seed rules, round-robin routing, SLA 30/20/30/45), reviewer console (inbox + detail + diffs + side panel), hash-chained audit trail with calibration reports, 4-channel feedback wire, notifications (9 types × 3 channels + Shinhan webhook).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
