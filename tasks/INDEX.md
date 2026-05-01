@@ -151,12 +151,12 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P11-T01 | Produce Engagement A & B sponsor-approved one-pagers | internal_tooling | not_ai | sales | P00-T01 | ◯ draft | partial |
-| P11-T02 | Compile AI Doctrine excerpts for three BU lenses | internal_tooling | not_ai | pm | — | ◯ draft | yes |
-| P11-T03 | Produce architecture and data-flow diagrams per BU | internal_tooling | not_ai | eng | P02-T01..9 | ◯ draft | yes |
-| P11-T04 | Build compliance dossier index with all Phase 8 outputs | internal_tooling | not_ai | compliance | P08-T01..8 | ◯ draft | yes |
-| P11-T05 | Author past-incident transparency log | internal_tooling | not_ai | eng-sec+pm | — | ◯ draft | partial |
-| P11-T06 | Produce squad team bios with clearance status and language fluency | internal_tooling | not_ai | hr+pm | — | ◯ draft | yes |
+| P11-T01 | Produce Engagement A & B sponsor-approved one-pagers | internal_tooling | not_ai | sales | P00-T01 | ◐ in_progress | partial |
+| P11-T02 | Compile AI Doctrine excerpts for three BU lenses | internal_tooling | not_ai | pm | — | ◐ in_progress | yes |
+| P11-T03 | Produce architecture and data-flow diagrams per BU | internal_tooling | not_ai | eng | P02-T01..9 | ◐ in_progress | yes |
+| P11-T04 | Build compliance dossier index with all Phase 8 outputs | internal_tooling | not_ai | compliance | P08-T01..8 | ◐ in_progress | yes |
+| P11-T05 | Author past-incident transparency log | internal_tooling | not_ai | eng-sec+pm | — | ◐ in_progress | partial |
+| P11-T06 | Produce squad team bios with clearance status and language fluency | internal_tooling | not_ai | hr+pm | — | ◐ in_progress | yes |
 
 ## Phase 12 — Pitch & Rehearsal
 
@@ -260,6 +260,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 8 — Compliance & Security**: ALL 8 tasks **in_progress** — PDPL mapping (6 consent purposes, DPIA), VN Cybersecurity Law (data localisation, 24h incident SLA), SBV circulars (TT-09, TT-50), ISO 27001/42001/SOC 2 controls (87% ready), STRIDE threat model (7 services + 8 LLM threats), pentest scope + NDA, SIG Lite/CAIQ/Shinhan questionnaires, IR/BCP runbooks (RTO 4h, RPO 1h).
 - **Phase 9 — Observability**: ALL 5 tasks **in_progress** — structured logger (JSON, Loki/OpenSearch shipping, OTel correlation), 5 Grafana dashboards (40+ panels), OTel tracing (W3C propagation, OTLP export, 24 predefined spans), SLO doc (5 primary SLOs, 8 alert rules, 6 runbooks), cost tracker (3 LLM pricing models, Z-score anomaly detection, Prometheus export).
 - **Phase 10 — Deployment Targets**: ALL 4 tasks **in_progress** — enhanced docker-compose (profiles: offline/observability, health checks, Qwen-7B), cloud deployment (per-BU namespaces, GKE Terraform, Helm commands), air-gapped on-prem bundle (SBOM + cosign, 3-tier sizing guide, ops runbook), VN data residency (Viettel/VNPT/FPT IDC mapping, Postgres RLS, per-tenant encryption).
+- **Phase 11 — Trust & Reference**: ALL 6 tasks **in_progress** — 2 reference engagement one-pagers (94% + 99.7% improvement), AI Doctrine three lenses (governance/velocity/accuracy), per-BU architecture + data-flow diagrams, compliance dossier index (9 documents), transparency log (5 incidents, 0 production), squad bios (6-person team, multilingual EN/VI/KO).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
