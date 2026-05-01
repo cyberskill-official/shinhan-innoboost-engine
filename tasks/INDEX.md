@@ -119,14 +119,14 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P08-T01 | Author PDPL conformance mapping and consent-flow doc | internal_tooling | not_ai | legal+compliance | P02-T07 | ◯ draft | partial |
-| P08-T02 | Author VN Cybersecurity Law (1 Jul 2026) conformance mapping | internal_tooling | not_ai | legal+compliance | — | ◯ draft | partial |
-| P08-T03 | Author SBV banking-IT regulatory conformance mapping | internal_tooling | not_ai | legal+compliance | — | ◯ draft | partial |
-| P08-T04 | Build ISO 27001 + ISO 42001 + SOC 2 control-mapping registry | internal_tooling | not_ai | compliance | — | ◯ draft | partial |
-| P08-T05 | Author threat model (STRIDE per service + LLM-specific threats) | internal_tooling | limited | eng-sec | P01-T04, P02-T06 | ◯ draft | partial |
-| P08-T06 | Procure penetration test, scope, NDA, vendor selection | internal_tooling | not_ai | eng-sec+legal | P01-T05 | ◯ draft | no |
-| P08-T07 | Pre-fill SIG Lite + CAIQ + Shinhan-specific vendor questionnaires | internal_tooling | not_ai | compliance | P08-T01..5 | ◯ draft | partial |
-| P08-T08 | Author incident-response and business-continuity runbooks | internal_tooling | not_ai | eng-sec+ops | — | ◯ draft | partial |
+| P08-T01 | Author PDPL conformance mapping and consent-flow doc | internal_tooling | not_ai | legal+compliance | P02-T07 | ◐ in_progress | partial |
+| P08-T02 | Author VN Cybersecurity Law (1 Jul 2026) conformance mapping | internal_tooling | not_ai | legal+compliance | — | ◐ in_progress | partial |
+| P08-T03 | Author SBV banking-IT regulatory conformance mapping | internal_tooling | not_ai | legal+compliance | — | ◐ in_progress | partial |
+| P08-T04 | Build ISO 27001 + ISO 42001 + SOC 2 control-mapping registry | internal_tooling | not_ai | compliance | — | ◐ in_progress | partial |
+| P08-T05 | Author threat model (STRIDE per service + LLM-specific threats) | internal_tooling | limited | eng-sec | P01-T04, P02-T06 | ◐ in_progress | partial |
+| P08-T06 | Procure penetration test, scope, NDA, vendor selection | internal_tooling | not_ai | eng-sec+legal | P01-T05 | ◐ in_progress | no |
+| P08-T07 | Pre-fill SIG Lite + CAIQ + Shinhan-specific vendor questionnaires | internal_tooling | not_ai | compliance | P08-T01..5 | ◐ in_progress | partial |
+| P08-T08 | Author incident-response and business-continuity runbooks | internal_tooling | not_ai | eng-sec+ops | — | ◐ in_progress | partial |
 
 ## Phase 9 — Observability
 
@@ -257,6 +257,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 5 — UI Shells**: ALL 5 tasks **in_progress** — shared chat surface (10 components, WCAG 2.2 AA), SVFC slate theme, Bank navy theme (HITL prominent), Securities charcoal theme (ticker-aware), admin console (6-section), dashboards (6 templates), full EN/VI i18n.
 - **Phase 6 — HITL Reviewer Queue**: ALL 5 tasks **in_progress** — triage rules engine (7 seed rules, round-robin routing, SLA 30/20/30/45), reviewer console (inbox + detail + diffs + side panel), hash-chained audit trail with calibration reports, 4-channel feedback wire, notifications (9 types × 3 channels + Shinhan webhook).
 - **Phase 7 — Vibe-Coding Demo Track**: ALL 4 tasks **in_progress** — starter-kit repo (3 presets, MCP configs, financial-types library), 3 live-build scenarios (Portfolio Summariser/Regulatory Checker/Backtest Dashboard) with kill/graduation criteria, 4 workflow templates (spec/demo/decision-gate/weekly cadence), evidence kit (3 graduated + 3 killed cycles).
+- **Phase 8 — Compliance & Security**: ALL 8 tasks **in_progress** — PDPL mapping (6 consent purposes, DPIA), VN Cybersecurity Law (data localisation, 24h incident SLA), SBV circulars (TT-09, TT-50), ISO 27001/42001/SOC 2 controls (87% ready), STRIDE threat model (7 services + 8 LLM threats), pentest scope + NDA, SIG Lite/CAIQ/Shinhan questionnaires, IR/BCP runbooks (RTO 4h, RPO 1h).
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
