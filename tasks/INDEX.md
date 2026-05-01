@@ -57,15 +57,15 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P02-T01 | Build semantic metric layer with registry and lineage tracking | infrastructure | minimal | eng-data | P01-T07 | ◯ draft | yes |
-| P02-T02 | Implement NL→SQL pipeline (intent + retriever + generator + validator) | user_facing | limited | eng-llm | P02-T01 | ◯ draft | partial |
-| P02-T03 | Implement deterministic policy layer for governance gates | infrastructure | limited | eng-llm | P02-T02 | ◯ draft | partial |
-| P02-T04 | Build citation engine (every numeric claim → verifiable source) | user_facing | limited | eng-llm | P02-T02 | ◯ draft | yes |
-| P02-T05 | Implement confidence-tier scoring (Low/Medium/High thresholds) | user_facing | limited | eng-llm | P02-T02 | ◯ draft | yes |
-| P02-T06 | Implement layered prompt-injection defence | infrastructure | limited | eng-sec+llm | P02-T02 | ◯ draft | partial |
-| P02-T07 | Implement PDPL consent ledger and data-minimisation engine | infrastructure | limited | eng+legal | P01-T07 | ◯ draft | partial |
-| P02-T08 | Build two-tier cache (L1 in-process + L2 Redis) with versioning | infrastructure | not_ai | eng | P02-T01 | ◯ draft | yes |
-| P02-T09 | Build append-only hash-chained audit log with WORM export | infrastructure | minimal | eng-sec | P01-T04 | ◯ draft | partial |
+| P02-T01 | Build semantic metric layer with registry and lineage tracking | infrastructure | minimal | eng-data | P01-T07 | ◐ in_progress | yes |
+| P02-T02 | Implement NL→SQL pipeline (intent + retriever + generator + validator) | user_facing | limited | eng-llm | P02-T01 | ◐ in_progress | partial |
+| P02-T03 | Implement deterministic policy layer for governance gates | infrastructure | limited | eng-llm | P02-T02 | ◐ in_progress | partial |
+| P02-T04 | Build citation engine (every numeric claim → verifiable source) | user_facing | limited | eng-llm | P02-T02 | ◐ in_progress | yes |
+| P02-T05 | Implement confidence-tier scoring (Low/Medium/High thresholds) | user_facing | limited | eng-llm | P02-T02 | ◐ in_progress | yes |
+| P02-T06 | Implement layered prompt-injection defence | infrastructure | limited | eng-sec+llm | P02-T02 | ◐ in_progress | partial |
+| P02-T07 | Implement PDPL consent ledger and data-minimisation engine | infrastructure | limited | eng+legal | P01-T07 | ◐ in_progress | partial |
+| P02-T08 | Build two-tier cache (L1 in-process + L2 Redis) with versioning | infrastructure | not_ai | eng | P02-T01 | ◐ in_progress | yes |
+| P02-T09 | Build append-only hash-chained audit log with WORM export | infrastructure | minimal | eng-sec | P01-T04 | ◐ in_progress | partial |
 
 ## Phase 3 — Synthetic Datasets
 
@@ -251,6 +251,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 
 - **Phase 0 — Pre-flight**: ALL 6 FRs written. P00-T02 is **done** (ADRs ratified by Stephen on 2026-05-02); remaining 5 are **in_progress**.
 - **Phase 1 — Foundation**: ALL 10 tasks **in_progress** — CI/CD workflows (5/5), Terraform IaC, Helm charts, auth/RBAC modules, encryption, backup/DR runbooks, and zero-trust network config produced.
+- **Phase 2 — Core Engine**: ALL 9 tasks **in_progress** — metric registry, NL→SQL pipeline, policy engine, citation engine, confidence scoring, prompt guard, consent ledger, two-tier cache, and audit log modules implemented.
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
