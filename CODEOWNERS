@@ -1,0 +1,46 @@
+# CODEOWNERS — auto-routes PRs to relevant squad
+# Defaults
+*                                @stephen-cheng
+
+# Engine (P02 + P04 + cost)
+/engine/                         @engine-squad
+/engine/auth/                    @engine-squad @platform-squad
+/engine/security/                @engine-squad @platform-squad
+/engine/privacy/                 @engine-squad @compliance-lead
+/eval/                           @engine-squad @data-squad
+
+# HITL (P06)
+/hitl/                           @engine-squad @design-squad
+
+# UI (P05)
+/ui/                             @design-squad @engine-squad
+
+# Data (P03)
+/data/                           @data-squad
+/packages/faker-vn/              @data-squad
+
+# Infra (P01-T01..T10 + P10)
+/infra/                          @platform-squad
+/.github/workflows/              @platform-squad
+/.husky/                         @platform-squad
+
+# Compliance + docs (P08 + P11)
+/compliance/                     @compliance-lead
+/docs/                           @engine-squad
+/docs/runbooks/                  @platform-squad @engine-squad
+/docs/adr/                       @stephen-cheng
+
+# References + legal + decks + rehearsals
+/references/                     @pm @stephen-cheng
+/decks/                          @pm @stephen-cheng
+/rehearsals/                     @pm @stephen-cheng
+/legal/                          @stephen-cheng @legal-vn
+
+# Root config + ratification
+/README.md                       @stephen-cheng
+/CONTRIBUTING.md                 @stephen-cheng
+/CODEOWNERS                      @stephen-cheng
+/package.json                    @platform-squad @stephen-cheng
+/turbo.json                      @platform-squad
+/tsconfig.base.json              @engine-squad
+/eslint.config.js                @engine-squad

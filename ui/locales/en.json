@@ -1,0 +1,23 @@
+{
+  "_doc": "English UI strings — per P05-T01. Mirror in vi.json.",
+  "chat": {
+    "placeholder": "Ask a question…",
+    "submit": "Ask",
+    "thinking": "Thinking…",
+    "newConversation": "New conversation"
+  },
+  "confidence": {
+    "high": "High confidence",
+    "medium": "Medium confidence",
+    "low": "Low confidence — routed to reviewer"
+  },
+  "refusal": {
+    "outOfScope": "I don't have a metric for that question. Try rephrasing.",
+    "sensitive": "Your role doesn't permit this question. Request elevation if needed.",
+    "lowConfidence": "I'm not confident enough to answer. This has been routed to a reviewer."
+  },
+  "hitl": {
+    "banner": "Your question requires reviewer approval. Reviewer SLA: 30 minutes.",
+    "approved": "Your answer is ready"
+  }
+}

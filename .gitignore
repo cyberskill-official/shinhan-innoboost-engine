@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# Test outputs
+coverage/
+eval-results/
+
+# Environment + secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Legal vault content (structure tracked, content gitignored)
+legal/consents/shinhan-innoboost-2026/*.pdf
+legal/ndas/shinhan-innoboost-2026/executed/
+legal/finance/innoboost-2026/*.pdf
+legal/audits/hitl-calibration/*.pdf
+legal/clearances/*.md
+
+# Pen-test full reports (legal/audits, restricted)
+legal/audits/pen-tests/
+
+# Recordings (large; project workspace, not source)
+rehearsals/recordings/
+references/shinhan-onboarding/*.mp4
+
+# Local dev
+.docker/
+*.log
+*.local

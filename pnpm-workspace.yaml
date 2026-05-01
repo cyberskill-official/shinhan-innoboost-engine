@@ -1,0 +1,7 @@
+packages:
+  - 'engine'
+  - 'hitl'
+  - 'ui'
+  - 'eval'
+  - 'data'
+  - 'packages/*'

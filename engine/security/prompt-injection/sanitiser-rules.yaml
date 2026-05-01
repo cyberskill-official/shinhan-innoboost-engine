@@ -1,0 +1,41 @@
+# Prompt-injection sanitiser rules — per P02-T06
+# Auto-applied to user input before LLM invocation.
+
+literal_phrases:
+  - 'ignore previous instructions'
+  - 'ignore all previous'
+  - 'you are now'
+  - 'from now on you will'
+  - 'you must comply'
+  - 'system:'
+  - 'assistant:'
+  - 'user:'
+  - '<|im_start|>'
+  - '<|im_end|>'
+  - '<system>'
+  - '<assistant>'
+
+zero_width_chars:
+  - "​" # zero-width space
+  - "‌" # zero-width non-joiner
+  - "‍" # zero-width joiner
+  - "﻿" # zero-width no-break space
+
+rtl_overrides:
+  - "‮" # right-to-left override
+
+oversized_input:
+  max_chars: 8000
+  strategy: truncate-with-notice
+
+encoded_payloads:
+  - decode: base64
+    pattern_threshold: 0.5
+  - decode: hex
+    pattern_threshold: 0.5
+  - decode: rot13
+    pattern_threshold: 0.5
+
+homoglyph_unicode:
+  - cyrillic_to_latin: true # convert Cyrillic lookalikes to Latin
+  - greek_to_latin: true

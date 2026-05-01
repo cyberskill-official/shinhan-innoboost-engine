@@ -1,0 +1,40 @@
+# Sensitivity classifier rules — per P02-T07
+# Applied at metric registry load to auto-classify columns.
+
+regulated:
+  column_name_patterns:
+    - 'national_id'
+    - 'cccd'
+    - 'cmnd'
+    - 'passport'
+    - 'tax_id'
+    - 'ssn'
+  metric_tags:
+    - 'kyc'
+    - 'aml'
+
+restricted:
+  column_name_patterns:
+    - 'phone'
+    - 'phone_number'
+    - 'email'
+    - 'address'
+    - 'full_name'
+    - 'name'
+    - 'dob'
+    - 'date_of_birth'
+
+internal:
+  metric_tags:
+    - 'operational'
+    - 'p&l'
+    - 'mis'
+    - 'branch-pnl'
+  default: true # any unmatched column starts at internal
+
+public:
+  metric_tags:
+    - 'aggregate'
+    - 'public-statistics'
+
+# Override mechanism: per-metric YAML can override auto-classification with documented rationale.

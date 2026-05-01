@@ -1,0 +1,23 @@
+{
+  "_doc": "Vietnamese UI strings — per P05-T01. Mirrors en.json.",
+  "chat": {
+    "placeholder": "Đặt câu hỏi…",
+    "submit": "Hỏi",
+    "thinking": "Đang xử lý…",
+    "newConversation": "Cuộc hội thoại mới"
+  },
+  "confidence": {
+    "high": "Độ tin cậy cao",
+    "medium": "Độ tin cậy trung bình",
+    "low": "Độ tin cậy thấp — đã chuyển cho kiểm soát viên"
+  },
+  "refusal": {
+    "outOfScope": "Tôi không có chỉ số phù hợp với câu hỏi này. Vui lòng diễn đạt lại.",
+    "sensitive": "Vai trò của bạn không cho phép truy vấn này. Vui lòng yêu cầu nâng quyền nếu cần.",
+    "lowConfidence": "Tôi chưa đủ tin cậy để trả lời. Câu hỏi đã được chuyển cho kiểm soát viên."
+  },
+  "hitl": {
+    "banner": "Câu hỏi của bạn cần được kiểm soát viên phê duyệt. SLA: 30 phút.",
+    "approved": "Câu trả lời của bạn đã sẵn sàng"
+  }
+}

@@ -1,0 +1,83 @@
+# Laptop deployment — per P10-T01.
+# Brings the full stack up on a 16 GB MacBook in < 5 minutes.
+
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: localdev
+      POSTGRES_DB: cyberskill
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: localdev
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./keycloak-realms:/opt/keycloak/data/import:ro
+
+  qwen-inference:
+    # Local LLM for offline operation.
+    # On Apple Silicon, swap for an MLX-based image.
+    image: ghcr.io/cyberskill-official/qwen-7b-awq-cpu:latest
+    ports:
+      - '8081:8000'
+    profiles: ['offline']
+
+  engine:
+    build:
+      context: ../..
+      dockerfile: engine/Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:localdev@postgres:5432/cyberskill
+      REDIS_URL: redis://redis:6379
+      KEYCLOAK_URL: http://keycloak:8080
+      LLM_ENDPOINT: ${LLM_ENDPOINT:-http://qwen-inference:8000/v1}
+    ports:
+      - '4000:4000'
+    depends_on:
+      - postgres
+      - redis
+
+  hitl:
+    build:
+      context: ../..
+      dockerfile: hitl/Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:localdev@postgres:5432/cyberskill
+    ports:
+      - '4001:4001'
+    depends_on:
+      - postgres
+
+  ui:
+    build:
+      context: ../..
+      dockerfile: ui/Dockerfile
+    environment:
+      ENGINE_URL: http://engine:4000
+      HITL_URL: http://hitl:4001
+      KEYCLOAK_URL: http://keycloak:8080
+    ports:
+      - '3000:3000'
+    depends_on:
+      - engine
+      - hitl
+
+volumes:
+  postgres-data:

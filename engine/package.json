@@ -1,0 +1,21 @@
+{
+  "name": "@cyberskill/shinhan-engine",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx watch src/index.ts",
+    "containerise": "docker build -t ghcr.io/cyberskill-official/shinhan-innoboost/engine:dev .",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tsx": "4.21.0"
+  }
+}
