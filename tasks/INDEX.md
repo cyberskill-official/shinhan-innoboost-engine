@@ -71,10 +71,10 @@
 
 | ID | Title | Type | Risk | Owner | Deps | Status | Agent |
 |---|---|---|---|---|---|---|---|
-| P03-T01 | Generate SVFC consumer-finance synthetic dataset | internal_tooling | not_ai | eng-data | — | ◯ draft | yes |
-| P03-T02 | Generate Bank HO Department synthetic dataset (SB5) | internal_tooling | not_ai | eng-data | — | ◯ draft | yes |
-| P03-T03 | Generate Securities synthetic dataset (SS1 contextual) | internal_tooling | not_ai | eng-data | — | ◯ draft | yes |
-| P03-T04 | Build Faker-VN extension and reproducible loader tooling | internal_tooling | not_ai | eng-data | — | ◯ draft | yes |
+| P03-T01 | Generate SVFC consumer-finance synthetic dataset | internal_tooling | not_ai | eng-data | — | ◐ in_progress | yes |
+| P03-T02 | Generate Bank HO Department synthetic dataset (SB5) | internal_tooling | not_ai | eng-data | — | ◐ in_progress | yes |
+| P03-T03 | Generate Securities synthetic dataset (SS1 contextual) | internal_tooling | not_ai | eng-data | — | ◐ in_progress | yes |
+| P03-T04 | Build Faker-VN extension and reproducible loader tooling | internal_tooling | not_ai | eng-data | — | ◐ in_progress | yes |
 
 ## Phase 4 — Eval Harness & Continuous QA
 
@@ -252,6 +252,7 @@ INDEX is the canonical task list; full FR documents are produced phase-by-phase.
 - **Phase 0 — Pre-flight**: ALL 6 FRs written. P00-T02 is **done** (ADRs ratified by Stephen on 2026-05-02); remaining 5 are **in_progress**.
 - **Phase 1 — Foundation**: ALL 10 tasks **in_progress** — CI/CD workflows (5/5), Terraform IaC, Helm charts, auth/RBAC modules, encryption, backup/DR runbooks, and zero-trust network config produced.
 - **Phase 2 — Core Engine**: ALL 9 tasks **in_progress** — metric registry, NL→SQL pipeline, policy engine, citation engine, confidence scoring, prompt guard, consent ledger, two-tier cache, and audit log modules implemented.
+- **Phase 3 — Synthetic Datasets**: ALL 4 tasks **in_progress** — Faker-VN, loader tooling, and 3 BU generators (SVFC 8 tables, Bank HO 7 tables, Securities 8 tables) with data cards produced.
 
 **Pending (full FRs not yet authored)**:
 - Phase 1 remainder (P01-T03..T10) — 8 tasks
